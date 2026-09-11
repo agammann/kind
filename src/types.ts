@@ -1,0 +1,11 @@
+export type Shift = {id:string;title:string;start:string;end:string;location:string;required:number;qualification:string;assigned:string[]};
+export type Volunteer = {id:string;name:string;qualifications:string[];opted_in:boolean;recent_contacts:number;availability:{start:string;end:string}[]};
+export type Invitation = {id:string;shift_id:string;volunteer_id:string;message:string;status:string;source:string;token?:string;created_at:string};
+export type Activity = {id:string;title:string;detail:string;at:string;shift_id?:string};
+export type Trace = {tool:string;detail:string};
+export type Run = {id:string;at:string;shift_id:string;source:string;trace:Trace[];result:string};
+export type Workspace = {organization:string;sample_data:boolean;timezone:string;shifts:Shift[];volunteers:Volunteer[];invitations:Invitation[];activity:Activity[];agent_runs:Run[];bedrock_configured:boolean};
+export type Candidate = {id:string;name:string;contacts:number;qualifications:string[];reasons:string[]};
+export type Candidates = {eligible:Candidate[];excluded:Candidate[];shift:Shift};
+export type Preparation = {summary:string;invitation:Invitation|null;source:string;trace:Trace[]};
+export type PublicInvitation = {organization:string;sample_data:boolean;name:string;message:string;status:string;shift:Omit<Shift,'id'|'required'|'assigned'>;timezone:string};

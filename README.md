@@ -97,4 +97,3 @@ Strands Agents SDK · Amazon Bedrock · Python · FastAPI · SQLite · React · 
 ## License and attribution
 
 MIT; see [LICENSE](LICENSE). Built with assistance from OpenAI Codex. The initial visual concept was generated with the built-in image-generation tool; the functional interface is implemented in React/CSS. Lucide icons are distributed under the ISC license; DM Sans and Manrope use the SIL Open Font License. No pre-existing project implementation was reused. All volunteer and organization records are fictional.
-

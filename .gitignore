@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.venv/
+__pycache__/
+.pytest_cache/
+.env
+data/
+*.sqlite*
+work/
+.DS_Store
+*.tsbuildinfo
+docs/design-concept.png
