@@ -1,13 +1,25 @@
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 import pytest
+import boto3
+from moto import mock_aws
 from fastapi.testclient import TestClient
 from .store import Store, WorkflowError, utcnow, iso
 from .agent import prepare
 from .app import create_app
 
-@pytest.fixture
-def store(tmp_path): return Store(str(tmp_path/'test.sqlite3'))
+@pytest.fixture(params=['sqlite','dynamodb'])
+def store(tmp_path,request,monkeypatch):
+    if request.param=='sqlite':
+        yield Store(str(tmp_path/'test.sqlite3'))
+        return
+    from .cloud_store import DynamoStore
+    monkeypatch.setenv('AWS_REGION','us-west-2')
+    with mock_aws():
+        boto3.client('dynamodb',region_name='us-west-2').create_table(TableName='kind-test',
+            KeySchema=[{'AttributeName':'pk','KeyType':'HASH'}],
+            AttributeDefinitions=[{'AttributeName':'pk','AttributeType':'S'}],BillingMode='PAY_PER_REQUEST')
+        yield DynamoStore('kind-test')
 
 def pending(store,volunteer='v1',shift='s1'):
     inv=store.draft(shift,volunteer,'Please help if you are available.')
@@ -21,7 +33,8 @@ def test_real_persistence_and_full_workflow(store):
     inv=store.approve(result['invitation']['id'],'Edited, approved message')
     assert store.public_invitation(inv['token'])['message']=='Edited, approved message'
     assert store.respond(inv['token'],'accepted')=={'status':'accepted'}
-    assert Store(store.path).read()['shifts'][0]['assigned']==['v3','v1']
+    reopened=Store(store.path) if hasattr(store,'path') else type(store)(store.table_name)
+    assert reopened.read()['shifts'][0]['assigned']==['v3','v1']
 
 def test_qualification_optout_and_contact_cap(store):
     candidates=store.candidates('s1')

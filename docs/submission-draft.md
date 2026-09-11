@@ -14,11 +14,11 @@ Kind identifies uncovered shifts in a sample nonprofit roster, finds eligible vo
 
 ## How we built it
 
-The interface uses React, TypeScript, and Vite. A Python/FastAPI backend stores the workflow in SQLite. A Strands agent can read shift context, check eligibility, and stage an invitation with Amazon Bedrock. Approval and assignment are separate server-controlled steps, beyond the agent's tool permissions. An explicit rules mode supports offline demonstrations.
+The interface uses React, TypeScript, and Vite. A Python/FastAPI backend stores the local workflow in SQLite. A Strands agent can read shift context, check eligibility, and stage an invitation with Amazon Bedrock. Approval and assignment are separate server controlled steps, beyond the agent's tool permissions. An explicit rules mode supports offline demonstrations. The prepared AWS version uses DynamoDB persistence, coordinator access control, and a private Lambda worker for AI preparation, with a persisted daily usage limit. That version has not yet been deployed.
 
 ## What we verified
 
-Fourteen automated tests cover persistence, eligibility, approval boundaries, and conflicting volunteer responses. The local browser workflow was exercised through acceptance and roster read-back. The real Strands tool loop was also tested with live Bedrock responses through AWS Core; standalone app credentials/hosting remain to be configured.
+The expanded suite passed 38 tests, with one database specific skip, covering the workflow on SQLite and simulated DynamoDB, coordinator access, competing responses and background job boundaries. The local browser workflow was exercised through acceptance and roster readback. The packaged application passed a smoke test inside the official Lambda Python container. The real Strands tool loop was also tested with live Bedrock responses through AWS Core; the standalone live endpoint remains to be deployed and verified.
 
 ## What remains before submission
 

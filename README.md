@@ -86,9 +86,17 @@ The tests cover persistent state, approval boundaries, eligibility changes, cont
 
 ## Architecture and limits
 
-See [architecture](docs/architecture.md), [scope](docs/scope.md), [verification](docs/verification.md), and [submission draft](docs/submission-draft.md).
+See [architecture](docs/architecture.md), [scope](docs/scope.md), [verification](docs/verification.md), [AWS deployment plan](docs/aws-deployment.md), and [submission draft](docs/submission-draft.md).
 
 This is a **single-organization, local sample workspace**, not a production multi-tenant service. Coordinator sessions are bootstrapped locally, volunteer links are bearer links, and SQLite serializes writes. Bind only to loopback. Do not expose this server publicly without replacing local session bootstrap with proper coordinator authentication, configuring HTTPS and trusted origins, and selecting durable hosted storage. No real nonprofit adoption or impact metrics are claimed.
+
+## Prepared AWS demo
+
+The repository also contains a hosted demo implementation and CloudFormation templates. These have not been deployed. Hosted mode requires a coordinator access code, uses signed secure session cookies, persists the sample roster in DynamoDB, and queues live AI work in a separate Lambda worker. Conditional writes prevent competing requests from overwriting a newer roster. A persisted counter admits at most 20 live AI runs per UTC day by default.
+
+The hosted demo is one shared fictional organization. It is not an identity service for real nonprofit operations. The deployment plan describes the resources, costs, access boundaries, package verification and remaining deployment checks.
+
+For the full test suite, install `pip install -r requirements-test.txt` before running `python -m pytest -q`. DynamoDB tests run against Moto locally and do not access AWS.
 
 ## Built with
 

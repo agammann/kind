@@ -1,0 +1,5 @@
+fastapi==0.141.1
+strands-agents==1.55.0
+boto3==1.43.90
+mangum==0.22.0
+tzdata==2026.3

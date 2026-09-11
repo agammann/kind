@@ -16,7 +16,9 @@ from .store import Store, WorkflowError
 from .agent import prepare
 
 
-def create_app(store=None):
+def create_app(store=None, *, auth=None, public_host=None, jobs=None):
+    if (auth is None) != (public_host is None):
+        raise ValueError('Hosted mode requires both authentication and a trusted host.')
     workspace=store or Store()
     session_token=secrets.token_urlsafe(32)
     agent_lock=asyncio.Lock()
@@ -34,13 +36,14 @@ def create_app(store=None):
         except asyncio.CancelledError: pass
 
     app=FastAPI(title='Kind',lifespan=lifespan,docs_url=None,redoc_url=None,openapi_url=None)
-    app.add_middleware(TrustedHostMiddleware,allowed_hosts=['127.0.0.1','localhost','testserver'])
+    app.add_middleware(TrustedHostMiddleware,allowed_hosts=[public_host] if public_host else ['127.0.0.1','localhost','testserver'])
 
     @app.middleware('http')
     async def local_boundary(request: Request, call_next):
         origin=request.headers.get('origin')
         if request.url.path.startswith('/api'):
             allowed={'http://127.0.0.1:5173','http://localhost:5173','http://127.0.0.1:8000','http://localhost:8000','http://testserver'}
+            if public_host: allowed={f'https://{public_host}'}
             if (origin and origin not in allowed) or request.headers.get('sec-fetch-site')=='cross-site':
                 return JSONResponse({'detail':'Cross-site API access is not allowed.'},status_code=403)
         response=await call_next(request)
@@ -48,6 +51,7 @@ def create_app(store=None):
         response.headers['Referrer-Policy']='no-referrer'
         response.headers['X-Content-Type-Options']='nosniff'
         response.headers['X-Frame-Options']='DENY'
+        if public_host: response.headers['Strict-Transport-Security']='max-age=31536000'
         return response
 
     @app.exception_handler(WorkflowError)
@@ -55,19 +59,38 @@ def create_app(store=None):
 
     def coordinator(request:Request):
         value=request.cookies.get('kind_coordinator','')
+        if auth:
+            if not auth.valid(value): raise WorkflowError('Enter the coordinator access code to open this demo.',401)
+            return
         if not secrets.compare_digest(value,session_token): raise WorkflowError('Open the coordinator workspace to start a local session.',401)
 
+    class Login(BaseModel): access_code: str=Field(default='',max_length=256)
+
     @app.post('/api/session')
-    def session(response: Response):
-        response.set_cookie('kind_coordinator',session_token,httponly=True,samesite='strict',max_age=43200)
-        return {'mode':'local_sample_workspace'}
+    def session(request: Request,response: Response,body: Login=Login()):
+        if auth:
+            if auth.valid(request.cookies.get('kind_coordinator','')):
+                return {'mode':'hosted_sample_workspace'}
+            if not auth.accepts(body.access_code):
+                raise WorkflowError('Enter the coordinator access code to open this demo.',401)
+        response.set_cookie('kind_coordinator',auth.issue() if auth else session_token,httponly=True,
+            secure=bool(auth),samesite='strict',max_age=43200)
+        return {'mode':'hosted_sample_workspace' if auth else 'local_sample_workspace'}
+
+    @app.post('/api/logout')
+    def logout(response: Response):
+        response.delete_cookie('kind_coordinator',secure=bool(auth),httponly=True,samesite='strict')
+        return {'status':'signed_out'}
 
     @app.get('/api/health')
     def health(): return {'status':'ok','sample_data':True,'bedrock_configured':bool(os.getenv('KIND_BEDROCK_MODEL_ID'))}
 
     @app.get('/api/workspace',dependencies=[Depends(coordinator)])
     def get_workspace():
+        if jobs: workspace.scan()
         state=workspace.read()
+        state={k:v for k,v in state.items() if not k.startswith('_')}
+        state['hosted']=bool(auth)
         state['bedrock_configured']=bool(os.getenv('KIND_BEDROCK_MODEL_ID'))
         return state
 
@@ -78,9 +101,16 @@ def create_app(store=None):
 
     @app.post('/api/shifts/{shift_id}/prepare',dependencies=[Depends(coordinator)])
     async def prepare_shift(shift_id:str,body:PrepareRequest):
+        if jobs and body.mode=='bedrock':
+            return JSONResponse(await asyncio.to_thread(jobs.start,shift_id),status_code=202)
         if agent_lock.locked(): raise WorkflowError('An invitation is already being prepared. Please wait.')
         async with agent_lock:
             return await asyncio.to_thread(prepare,workspace,shift_id,body.mode)
+
+    @app.get('/api/jobs/{job_id}',dependencies=[Depends(coordinator)])
+    def get_job(job_id:str):
+        if not jobs: raise WorkflowError('Background jobs are not enabled locally.',404)
+        return jobs.get(job_id)
 
     class Approval(BaseModel): message: str=Field(min_length=1,max_length=2000)
 
@@ -123,4 +153,4 @@ def create_app(store=None):
     return app
 
 
-app=create_app()
+app=None if os.getenv('KIND_HOSTED')=='1' else create_app()

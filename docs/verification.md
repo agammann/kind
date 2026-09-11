@@ -1,6 +1,15 @@
-# Verification — 2026-09-09 UTC
+# Kind verification
 
-## Completed
+## September 10 update
+
+1. The expanded test suite passed with 38 tests and one SQLite specific skip. The original workflow cases now run against both SQLite and a local Moto DynamoDB simulation. Moto checks do not establish live DynamoDB access.
+2. Hosted authentication tests cover rejected anonymous and incorrect access codes, secure cookies, session continuity across new app instances, tampered and expired cookies, logout and cross site requests.
+3. Job tests cover the persisted daily run allowance, a single active job, duplicate worker delivery, visible failure and expiration, protected job routes and hidden internal job state. Conditional DynamoDB writes reject a stale snapshot.
+4. TypeScript compilation and the production frontend build passed. Browser verification reopened the saved roster and prepared a new Pantry preparation invitation for Aisha, then kept it as an unapproved draft for review.
+5. A 29.4 MB Linux package was built with the frontend and runtime dependencies. In the official AWS Lambda Python 3.12 container, its imports, rules draft, authentication, API Gateway v2 adapter, saved roster and frontend passed. This container smoke test made no AWS API calls. The package manifest records its digest and exact byte sizes.
+6. CloudFormation templates are prepared, but cfn-lint, Guard and cloud change set validation remain pending. No Kind cloud resources have been created and the hosted endpoint is not yet deployed.
+
+## Earlier local and live model checks
 
 - 14 automated backend/API tests passed on Windows/Python 3.12.
 - TypeScript compilation and Vite production build passed.
