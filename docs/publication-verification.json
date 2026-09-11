@@ -1,0 +1,30 @@
+{
+  "checked_at_utc": "2026-09-11",
+  "project_url": "https://devpost.com/software/kind-86pndf",
+  "public_http_status": 200,
+  "writeup": "Updated and verified rendered on public page",
+  "gallery_count": 6,
+  "gallery_order": [
+    "01-coverage.png",
+    "02-invitation-review.png",
+    "04-volunteer-response.png",
+    "06-covered-roster.png",
+    "07-agent-history.png",
+    "kind-architecture.png"
+  ],
+  "gallery_images_loaded": true,
+  "thumbnail": "01-coverage.png",
+  "architecture_required_attachment": "Saved and verified after reopening additional info",
+  "submitter_type": "Individual",
+  "track": "Good Neighbor Agents",
+  "repository_visibility": "public",
+  "repository_license": "MIT",
+  "repository_license_unauthenticated_http_status": 200,
+  "repository_blocker": null,
+  "hackathon_submitted": false,
+  "missing_personal_fields": [
+    "Country of Residence",
+    "AWS Builder ID"
+  ],
+  "video_url": null
+}

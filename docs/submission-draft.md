@@ -29,10 +29,13 @@ Running the complete flow exposed problems a recommendation mockup would miss. H
 ## What remains before submission
 
 - Judge access instructions for the deployed build at https://idwgz9gl09.execute-api.us-west-2.amazonaws.com. The private coordinator code must be shared through an appropriate judging access field, not a public project description.
-- Public repository visibility and final source/license review.
 - A public video of at most five minutes, showing the real working flow.
-- Final architecture and testing instructions checked against the shipped build.
+- Final testing instructions and judge access.
 - AWS Builder ID and other user-only submission fields.
 - Explicit final submission approval.
 
 All people and organizations in the current demo are fictional. Deployment is verified. No claims of adoption, volunteer hours saved, or external message delivery should be added without evidence.
+
+## Publication status
+
+The repository is public under its included MIT license, verified through an unauthenticated GitHub request. The existing Devpost page contains the reviewed writeup, five captioned screenshots and architecture diagram. The required architecture attachment, individual entry, track and demo/repository URLs are saved in the draft. See [published writeup](devpost-public-writeup.md) and [publication verification](publication-verification.json). The hackathon entry has not been submitted.

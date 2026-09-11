@@ -43,7 +43,7 @@ React and TypeScript provide the interface. API Gateway routes HTTPS requests to
 
 The same workflow runs locally with SQLite. AWS Lambda is the deployed runtime; AgentCore is not used.
 
-Architecture attachment: `docs/assets/kind-architecture.png` (1800 × 1260). Editable SVG is alongside it. The rendered PNG has been reviewed and is ready to attach to official field 27734.
+Architecture attachment: `docs/assets/kind-architecture.png` (1800 × 1260). Editable SVG is alongside it. The rendered PNG is published in the Devpost gallery and saved in required architecture field 27734.
 
 ## Testing Instructions
 
@@ -72,7 +72,7 @@ HTTPS endpoint is deployed. Coordinator access requires the demo code. Volunteer
 
 https://github.com/agammann/kind
 
-The repository currently remains private. Public visibility is an official requirement and still requires the owner's release approval. The repository includes an MIT LICENSE; verify GitHub detects it after release.
+The repository is public following the owner's explicit release approval. An unauthenticated GitHub API request confirms public visibility and the MIT license; the raw LICENSE file returns HTTP 200.
 
 ## Demo Video
 
@@ -98,7 +98,7 @@ Official requirements and judging criteria were fetched live through the Devpost
 
 The updated local test suite passed 48 tests, with one database specific skip. The frontend built successfully, and the updated package passed the official Lambda Python 3.12 container smoke test. The original deployed live API workflow passed nine checks. The recording pass separately verifies the updated deployed interface.
 
-The existing Devpost project page is published; the hackathon entry has no submitted timestamp. This packet is a local draft and has not been applied to the public project page. Required user declarations and final confirmation remain outstanding.
+The existing Devpost project page is updated with the reviewed writeup, five captioned workflow screenshots, architecture diagram and demo/repository links. The diagram is also saved in the required attachment field. Individual entry and the Good Neighbor Agents track are saved. The hackathon entry remains a draft with no submitted timestamp. A public video URL, personal declarations, judge access instructions and final submission remain outstanding. The published writeup is recorded in docs/devpost-public-writeup.md.
 
 ## Known Limitations
 
@@ -112,8 +112,8 @@ One shared fictional organization; no managed user identities, organization isol
 | Country of Residence | 27730 | TODO user confirmation |
 | Organization name | 27731 | Not applicable for an individual entry |
 | Track | 27732 | Good Neighbor Agents |
-| PUBLIC code repo | 27733 | https://github.com/agammann/kind ; public visibility pending |
-| Architecture diagram | 27734 | Attach kind-architecture.png; do not put a text answer in this file field |
+| PUBLIC code repo | 27733 | https://github.com/agammann/kind ; public visibility verified, MIT license detected |
+| Architecture diagram | 27734 | kind-architecture.png attached and verified after reopening the draft |
 | AWS Builder ID | 27735 | TODO user supplied Builder ID |
 | Live demo | 27736 | https://idwgz9gl09.execute-api.us-west-2.amazonaws.com |
 | Testing instructions | 28191 | Use Testing Instructions above; settle private code delivery first |
