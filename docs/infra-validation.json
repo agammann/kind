@@ -1,0 +1,138 @@
+{
+  "checked_at": "2026-09-11T01:55:13.374118+00:00",
+  "region": "us-west-2",
+  "versions": {
+    "cfn_lint": "cfn-lint 1.56.3",
+    "cfn_guard": "cfn-guard 3.2.1"
+  },
+  "templates": {
+    "infra/artifacts.json": "367f183ed081b7faf78e93212d3e360253dd6b8dd958eb9e3c968902e58d0cce",
+    "infra/template.json": "756da9a97ee05c174c3841af9d2766d4190053c728511b946571023a6fbeea13"
+  },
+  "schema_exit_code": 0,
+  "schema_findings": [],
+  "guard_exit_code": 0,
+  "guard_checks": [
+    {
+      "template": "artifacts.json",
+      "status": "SKIP",
+      "passed": [],
+      "skipped": [
+        "DYNAMODB_TABLE_MUST_BE_ENCRYPTED"
+      ],
+      "failed": []
+    },
+    {
+      "template": "template.json",
+      "status": "PASS",
+      "passed": [
+        "DYNAMODB_TABLE_MUST_BE_ENCRYPTED"
+      ],
+      "skipped": [],
+      "failed": []
+    },
+    {
+      "template": "artifacts.json",
+      "status": "PASS",
+      "passed": [
+        "KIND_RETAIN_STATE"
+      ],
+      "skipped": [
+        "KIND_ENCRYPT_QUEUE",
+        "KIND_HOSTED_MODE",
+        "KIND_LIMIT_AI_ADMISSION",
+        "KIND_PRIVATE_WORKER",
+        "KIND_PROTECT_ACCESS_PARAMETERS"
+      ],
+      "failed": []
+    },
+    {
+      "template": "template.json",
+      "status": "PASS",
+      "passed": [
+        "KIND_ENCRYPT_QUEUE",
+        "KIND_HOSTED_MODE",
+        "KIND_LIMIT_AI_ADMISSION",
+        "KIND_PRIVATE_WORKER",
+        "KIND_PROTECT_ACCESS_PARAMETERS",
+        "KIND_RETAIN_STATE"
+      ],
+      "skipped": [],
+      "failed": []
+    },
+    {
+      "template": "artifacts.json",
+      "status": "PASS",
+      "passed": [
+        "S3_BUCKET_PUBLIC_READ_PROHIBITED"
+      ],
+      "skipped": [],
+      "failed": []
+    },
+    {
+      "template": "template.json",
+      "status": "SKIP",
+      "passed": [],
+      "skipped": [
+        "S3_BUCKET_PUBLIC_READ_PROHIBITED"
+      ],
+      "failed": []
+    },
+    {
+      "template": "artifacts.json",
+      "status": "PASS",
+      "passed": [
+        "S3_BUCKET_PUBLIC_WRITE_PROHIBITED"
+      ],
+      "skipped": [],
+      "failed": []
+    },
+    {
+      "template": "template.json",
+      "status": "SKIP",
+      "passed": [],
+      "skipped": [
+        "S3_BUCKET_PUBLIC_WRITE_PROHIBITED"
+      ],
+      "failed": []
+    },
+    {
+      "template": "artifacts.json",
+      "status": "PASS",
+      "passed": [
+        "S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED"
+      ],
+      "skipped": [],
+      "failed": []
+    },
+    {
+      "template": "template.json",
+      "status": "SKIP",
+      "passed": [],
+      "skipped": [
+        "S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED"
+      ],
+      "failed": []
+    },
+    {
+      "template": "artifacts.json",
+      "status": "PASS",
+      "passed": [
+        "S3_BUCKET_SSL_REQUESTS_ONLY"
+      ],
+      "skipped": [],
+      "failed": []
+    },
+    {
+      "template": "template.json",
+      "status": "SKIP",
+      "passed": [],
+      "skipped": [
+        "S3_BUCKET_SSL_REQUESTS_ONLY"
+      ],
+      "failed": []
+    }
+  ],
+  "tool_errors": [],
+  "scope": "Local template validation only. Cloud account checks and change set validation are still required."
+}

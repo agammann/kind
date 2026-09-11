@@ -1,0 +1,41 @@
+# Project specific checks for the protected sample demo.
+let functions = Resources.*[ Type == 'AWS::Lambda::Function' ]
+let queues = Resources.*[ Type == 'AWS::SQS::Queue' ]
+let retained = Resources.*[ Type in ['AWS::S3::Bucket', 'AWS::DynamoDB::Table', 'AWS::SQS::Queue'] ]
+
+rule KIND_RETAIN_STATE when %retained !empty {
+    %retained.DeletionPolicy == 'Retain'
+    %retained.UpdateReplacePolicy == 'Retain'
+}
+
+rule KIND_ENCRYPT_QUEUE when %queues !empty {
+    %queues.Properties.SqsManagedSseEnabled == true
+}
+
+rule KIND_HOSTED_MODE when %functions !empty {
+    %functions.Properties.Environment.Variables.KIND_HOSTED == '1'
+}
+
+rule KIND_PROTECT_ACCESS_PARAMETERS when Parameters.AccessCodeDigest exists {
+    Parameters.AccessCodeDigest.NoEcho == true
+    Parameters.SessionSigningKey.NoEcho == true
+    Parameters.SessionSigningKey.MinLength >= 43
+    Resources.WebFunction.Properties.Environment.Variables.KIND_ACCESS_DIGEST.Ref == 'AccessCodeDigest'
+    Resources.WebFunction.Properties.Environment.Variables.KIND_SESSION_KEY.Ref == 'SessionSigningKey'
+}
+
+rule KIND_LIMIT_AI_ADMISSION when Parameters.DailyAiLimit exists {
+    Parameters.DailyAiLimit.Default <= 20
+    Parameters.DailyAiLimit.MinValue == 0
+    Resources.AgentWorker.Properties.ReservedConcurrentExecutions == 1
+    Resources.AgentWorker.Properties.Timeout <= 300
+    Resources.WorkerDelivery.Properties.MaximumRetryAttempts == 0
+    Resources.WorkerDelivery.Properties.DestinationConfig.OnFailure.Destination exists
+}
+
+rule KIND_PRIVATE_WORKER when Resources.AgentWorker exists {
+    Resources.*[ Type == 'AWS::Lambda::Url' ] empty
+    Resources.InvokePermission.Properties.FunctionName.Ref == 'WebFunction'
+    Resources.InvokePermission.Properties.Principal == 'apigateway.amazonaws.com'
+    Resources.InvokePermission.Properties.SourceArn exists
+}
