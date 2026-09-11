@@ -1,6 +1,6 @@
 # Kind demo narration and recording plan
 
-The prepared video is a screen recording of the deployed HTTPS app, with editorial title cards and captions. It has no narration audio. Its runtime is under five minutes. The captions carry the pitch; this text can also be read as an optional voiceover.
+The prepared video is a screen recording of the deployed HTTPS app, with editorial title cards and captions. The selected MP4 adds Amazon Polly Matthew neural narration aligned to the on screen workflow. Its runtime is 2 minutes 59 seconds. The original captions remain. The exact spoken script and cue times are in narration-script.md; the outline below explains the story.
 
 ## Opening
 

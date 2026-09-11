@@ -78,9 +78,9 @@ The repository currently remains private. Public visibility is an official requi
 
 Public URL: TODO after reviewing and uploading the prepared video.
 
-Target: a captioned screen demonstration under five minutes, covering the problem, audience, working flow and why it matters. The recording uses the actual deployed app, editorial title cards and captions. No real people, external messages or impact metrics are represented. Voiceover is optional; the prepared version uses captions.
+Target: a captioned screen demonstration under five minutes, covering the problem, audience, working flow and why it matters. The recording uses the actual deployed app, editorial title cards and captions. No real people, external messages or impact metrics are represented. The selected version uses Matthew neural narration from Amazon Polly, with the existing captions retained.
 
-Local video: `../kind-submission/kind-demo-final.webm`. The recording evidence file contains timing and actual browser checks. [Demo narration and publication instructions](docs/demo-script.md) accompany it. Do not call a local video a public URL.
+Local video: `../kind-submission/kind-demo-narrated.mp4`. The recording evidence file contains timing and actual browser checks. [Demo narration and publication instructions](docs/demo-script.md) accompany it. Do not call a local video a public URL.
 
 ## Screenshot Shot List
 

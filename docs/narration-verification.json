@@ -1,0 +1,178 @@
+{
+  "voice": "Matthew",
+  "engine": "neural",
+  "provider": "Amazon Polly",
+  "segments": [
+    {
+      "id": "00-opening",
+      "start": 0.6,
+      "end": 15.8,
+      "text": "When a volunteer cancels, finding a replacement takes more than an empty slot on a schedule. Meet Kind: a volunteer coordinator that helps small nonprofits keep their community covered.",
+      "source_duration": 9.744,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 11.077,
+      "audio_rms": 0.11085
+    },
+    {
+      "id": "01-audience",
+      "start": 16.5,
+      "end": 26,
+      "text": "This is Kind running on AWS. The food bank, volunteers, and shifts are fictional, so you can explore the full workflow.",
+      "source_duration": 7.608,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 24.681,
+      "audio_rms": 0.11126
+    },
+    {
+      "id": "02-eligibility",
+      "start": 27,
+      "end": 38,
+      "text": "Pantry preparation needs one more volunteer. Kind checks availability, qualifications, overlapping commitments, permission to receive invitations, and recent contact limits.",
+      "source_duration": 9.888,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 37.632,
+      "audio_rms": 0.11276
+    },
+    {
+      "id": "03-agent",
+      "start": 39,
+      "end": 57,
+      "text": "We select Strands and Amazon Bedrock. A private Lambda worker runs Nova Lite, using three bounded tools to inspect the shift, check eligible volunteers, and stage a draft.",
+      "source_duration": 9.792,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 49.529,
+      "audio_rms": 0.11352
+    },
+    {
+      "id": "04-draft",
+      "start": 58,
+      "end": 68,
+      "text": "The invitation is ready. Its time and location come from the saved shift. The agent cannot approve it or assign anyone.",
+      "source_duration": 6.768,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 65.277,
+      "audio_rms": 0.11016
+    },
+    {
+      "id": "05-review",
+      "start": 69,
+      "end": 79,
+      "text": "The coordinator reviews the exact message and can edit it. Only their approval activates the volunteer response link.",
+      "source_duration": 6.168,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 75.632,
+      "audio_rms": 0.11929
+    },
+    {
+      "id": "06-link",
+      "start": 80,
+      "end": 90,
+      "text": "Approval creates this individual response page. No email or text is sent by the demo. The link can be shared manually.",
+      "source_duration": 7.224,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 87.768,
+      "audio_rms": 0.11622
+    },
+    {
+      "id": "07-volunteer",
+      "start": 91,
+      "end": 102,
+      "text": "The volunteer sees their invitation and shift, then decides whether they can help. They do not get access to the full roster.",
+      "source_duration": 6.528,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 98.019,
+      "audio_rms": 0.11182
+    },
+    {
+      "id": "08-accept",
+      "start": 103,
+      "end": 114,
+      "text": "Acceptance checks eligibility and remaining capacity again, then saves the assignment. Repeating the response cannot overfill the shift.",
+      "source_duration": 7.248,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 110.794,
+      "audio_rms": 0.1145
+    },
+    {
+      "id": "09-roster",
+      "start": 115,
+      "end": 124,
+      "text": "Back in the coordinator workspace, the shift is covered. The roster and activity remain saved in Dynamo DB.",
+      "source_duration": 6.336,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 121.813,
+      "audio_rms": 0.11567
+    },
+    {
+      "id": "10-trace",
+      "start": 125,
+      "end": 136,
+      "text": "Preparation history shows what the Strands tools did. Model preparation, human approval, and the volunteer's response remain separate, visible steps.",
+      "source_duration": 8.76,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 134.419,
+      "audio_rms": 0.11169
+    },
+    {
+      "id": "11-restart",
+      "start": 137,
+      "end": 147,
+      "text": "Judges can restart the fictional sample for fresh future shifts. Confirmation explains the reset, and the daily AI allowance stays the same.",
+      "source_duration": 7.728,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 145.31,
+      "audio_rms": 0.10853
+    },
+    {
+      "id": "12-architecture",
+      "start": 148,
+      "end": 160,
+      "text": "React and Fast API power the interface. A private Lambda worker runs Strands and Bedrock, while Dynamo DB protects the saved roster.",
+      "source_duration": 7.992,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 156.594,
+      "audio_rms": 0.11065
+    },
+    {
+      "id": "13-closing",
+      "start": 161,
+      "end": 178.5,
+      "text": "Kind is built for the Good Neighbor Agents track. The goal is less coordination work and more reliable coverage. It is a working sample, ready for feedback from nonprofit coordinators. A little coordination. A lot of good.",
+      "source_duration": 12.72,
+      "tempo": 1,
+      "render_tempo": 0.93,
+      "render_end": 174.677,
+      "audio_rms": 0.11183
+    }
+  ],
+  "video_file": "kind-demo-narrated.mp4",
+  "duration_seconds": 179.92,
+  "audio_codec": "AAC",
+  "video_codec": "H.264",
+  "loudness_target_lufs": -16,
+  "true_peak_target_dbtp": -1.5,
+  "captions": "Original burned captions retained; narration transcript supplied separately.",
+  "listening_review": "Audio input is unavailable in this assistant environment. Technical checks and scene alignment were performed; subjective listening review is for the user.",
+  "verification": {
+    "complete_av_decode": "passed",
+    "all_14_narration_sections_contain_audio": true,
+    "master_peak_dbfs": -4.51,
+    "duration_seconds": 179.89179166666668,
+    "file_bytes": 10059404,
+    "sha256": "89e125825ddac3a00ffbe806b8bf3174b29d9ffbe1b80c5fb02fb76df94d1af1",
+    "meter_summary": "Integrated loudness:\n    I:         -16.3 LUFS\n    Threshold: -26.8 LUFS\n\n  Loudness range:\n    LRA:         6.5 LU\n    Threshold: -37.9 LUFS\n    LRA low:   -22.5 LUFS\n    LRA high:  -16.0 LUFS\n\n  True peak:\n    Peak:       -4.4 dBFS\n[out#0/null @ 000001a525b4e8c0] video:0KiB audio:33732KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown\nsize=N/A time=00:02:59.90 bitrate=N/A speed= 240x"
+  }
+}
