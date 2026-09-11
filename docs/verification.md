@@ -8,6 +8,7 @@
 4. TypeScript compilation and the production frontend build passed. Browser verification reopened the saved roster and prepared a new Pantry preparation invitation for Aisha, then kept it as an unapproved draft for review.
 5. A 29.4 MB Linux package was built with the frontend and runtime dependencies. In the official AWS Lambda Python 3.12 container, its imports, rules draft, authentication, API Gateway v2 adapter, saved roster and frontend passed. This container smoke test made no AWS API calls. The package manifest records its digest and exact byte sizes.
 6. CloudFormation templates are prepared, but cfn-lint, Guard and cloud change set validation remain pending. No Kind cloud resources have been created and the hosted endpoint is not yet deployed.
+7. Saving completed project fields through the Devpost connector unexpectedly published the project page. The page was then hidden from the portfolio using Devpost's visibility control, verified by the control changing to "Show project in my portfolio." The direct project URL remains published. The hackathon entry is still incomplete and `submitted_at` is null. No final submission was performed. A control to restore the project page to draft was not available in the inspected editor or connector.
 
 ## Earlier local and live model checks
 
@@ -29,4 +30,4 @@ Persistence; qualification and opt-in constraints; weekly contact cap; eligibili
 - The app's default preview is rules mode. Its standalone Bedrock provider requires an authorized local SDK session or a deployed backend. The live connector test is a test transport, not a persistent production integration.
 - No emails, SMS messages, real volunteer invitations, or real nonprofit records were used.
 - A public deployment, production authentication, nonprofit user validation, and a final demo video have not been completed.
-- The Devpost project is a draft. The GitHub repository is private during development and must be made public before contest submission.
+- The Devpost hackathon entry remains incomplete. See the September 10 note about the separately published project page. The GitHub repository is private during development and must be made public before contest submission.
