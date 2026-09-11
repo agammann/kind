@@ -31,7 +31,7 @@ The background watcher detects gaps and expires stale invitations; it does not i
 
 The app binds to loopback, restricts Host and Origin headers, blocks cross-site API requests, uses an HTTP-only SameSite cookie, rejects unauthorized coordinator API access, and suppresses access logs containing invitation links. Bootstrap grants coordinator access only within the local demo model; it is not a production login system. Demo data must not be used as a real operational roster.
 
-## Prepared hosted demo
+## Deployed hosted demo
 
 ```mermaid
 flowchart LR
@@ -54,6 +54,6 @@ Only the API function can queue the private worker. It reserves a persisted dail
 
 The local coverage watcher runs every thirty seconds. The Lambda deployment scans when an authenticated coordinator loads or polls the workspace; it does not promise a continuously running background timer.
 
-## Deployment work remaining
+## Work remaining before real nonprofit use
 
-Before deploying this protected demo: finish template validation, approve resource creation and metered usage, create deployment credentials, upload the package, execute the reviewed stack change, and verify the actual cloud workflow. Before real nonprofit use: add managed identity, organization isolation, operational data entry, backup and recovery procedures, and user validation. External email/SMS delivery needs a selected provider, contact consent handling, and delivery/retry tracking. AgentCore is an optional deployment route, not a dependency of the working local prototype.
+The protected demo is deployed and its live workflow is verified; see `deployment.json` and `live-verification.json`. Before real nonprofit use, add managed identity, organization isolation, operational data entry, backup and recovery procedures, and user validation. External email/SMS delivery needs a selected provider, contact consent handling, and delivery/retry tracking. AgentCore is an optional deployment route, not a dependency of this demo.

@@ -1,6 +1,14 @@
 # Kind verification
 
-## September 10 update
+## Approved AWS deployment
+
+Both AWS stacks reached CREATE_COMPLETE after explicit user approval. The hosted endpoint is https://idwgz9gl09.execute-api.us-west-2.amazonaws.com. Both Lambda functions are Active, with successful updates and code digests matching the tested package. The worker has one reserved concurrent execution.
+
+The actual HTTPS test passed coordinator access restrictions, secure cookies, cross origin rejection, a live asynchronous Strands and Nova Lite draft, coordinator approval, scoped volunteer access, acceptance, idempotent repeated acceptance and persistence after a new session. DynamoDB independently confirmed one Bedrock run, one accepted invitation and two volunteers assigned to the shift requiring two. This was one live AI preparation, not an exhaustive production load test. See `live-verification.json` and `deployment.json`.
+
+The hosted sign in page was also checked in the Codex browser. The automated cloud workflow verification used HTTP clients against the deployed API; the earlier local browser test covered the interactive coordinator and volunteer flow. No real people were contacted and no email or SMS was sent.
+
+## September 10 preparation history
 
 1. The expanded test suite passed with 38 tests and one SQLite specific skip. The original workflow cases now run against both SQLite and a local Moto DynamoDB simulation. Moto checks do not establish live DynamoDB access.
 2. Hosted authentication tests cover rejected anonymous and incorrect access codes, secure cookies, session continuity across new app instances, tampered and expired cookies, logout and cross site requests.
@@ -24,10 +32,10 @@ The three live tool-loop calls reported 3,555 total tokens (726 + 1,353 + 1,476)
 
 Persistence; qualification and opt-in constraints; weekly contact cap; eligibility recheck on approval; decline and next candidate; simultaneous acceptances; repeated approvals and acceptances; changed overlapping commitments; expiration; cancellation/revocation; assignment cancellation; anonymous volunteer versus coordinator permissions; cross-site and Host restrictions; repeated gap scans; explicit failure when live mode is not configured.
 
-## Boundaries
+## Current boundaries
 
-- No cloud resources were created for these checks. AWS credentials were not exported from the AWS Core connector.
-- The app's default preview is rules mode. Its standalone Bedrock provider requires an authorized local SDK session or a deployed backend. The live connector test is a test transport, not a persistent production integration.
+- The initial connector checks created no cloud resources and exported no AWS credentials. The subsequently approved deployment uses runtime IAM roles and is verified separately above.
+- The local preview defaults to rules mode. The deployed backend supports live Bedrock without an active Codex session. The earlier connector transport was a test only.
 - No emails, SMS messages, real volunteer invitations, or real nonprofit records were used.
-- A public deployment, production authentication, nonprofit user validation, and a final demo video have not been completed.
+- A protected HTTPS sample demo is deployed. Production managed identity, nonprofit user validation, and a final demo video have not been completed.
 - The Devpost hackathon entry remains incomplete. See the September 10 note about the separately published project page. The GitHub repository is private during development and must be made public before contest submission.

@@ -1,5 +1,7 @@
 # Kind AWS preflight
 
+Historical review snapshot. The user subsequently approved deployment, both stacks completed, and the live workflow passed. See `deployment.json` for current evidence. The unexecuted statuses below describe the state at this preflight checkpoint.
+
 Verified September 10, 2026 Pacific time through the reconnected AWS Core connector.
 
 ## Account and service readiness

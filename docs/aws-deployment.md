@@ -1,10 +1,10 @@
 # Kind AWS deployment plan
 
-Status: implementation, deployment package, local template validation and AWS account preflight are complete. The reconnected AWS Core connector accepted both templates and confirmed model availability. An unexecuted artifact change set and REVIEW_IN_PROGRESS stack shell exist; no application infrastructure has been provisioned. See `aws-preflight.md` for the exact reviewed changes and approval scope. The live deployment and its runtime permissions are not yet verified.
+Status: deployed and verified after explicit user approval. Both `kind-artifacts` and `kind-demo` reached CREATE_COMPLETE in `us-west-2`. The actual HTTPS workflow completed live Bedrock preparation, coordinator approval and volunteer acceptance, with the roster saved in DynamoDB. See `deployment.json` and `live-verification.json` for evidence. `aws-preflight.md` records the earlier review and approval scope.
 
 Target: the connected AWS account, region `us-west-2`. Use the AWS Core connector for deployment. The connector connection does not give the standalone local app SDK credentials, and no credentials need to be exported from it.
 
-## Resources to create
+## Deployed resource design
 
 1. An artifact stack from `infra/artifacts.json`: a private S3 bucket with public access blocked, encryption, versioning and a policy requiring TLS.
 2. An application stack from `infra/template.json`: an HTTPS API Gateway endpoint, a web Lambda, a private agent Lambda, two scoped runtime IAM roles, a DynamoDB table, two log groups with seven day retention, and an encrypted queue for failed worker deliveries.
@@ -46,9 +46,9 @@ The corresponding runtime smoke command uses the official Lambda Python image wi
 docker run --rm --entrypoint python -e KIND_HOSTED=1 -e AWS_EC2_METADATA_DISABLED=true -v /absolute/path/to/outputs:/build:ro public.ecr.aws/lambda/python:3.12 /build/kind/scripts/smoke_lambda_package.py /build/kind-deployment/kind-demo.zip
 ```
 
-## Deployment sequence after approval
+## Deployment sequence completed after approval
 
-1. Local validation is complete: cfn-lint 1.56.3 returned no findings for either template; cfn-guard 3.2.1 passed all twelve applicable selected checks. Ten checks were inapplicable to one of the templates. See `infra/guard/README.md` for rule scope and `docs/infra-validation.json` for the machine readable results and template hashes. Cloud account checks and artifact change set review have passed; execution awaits deployment approval.
+1. Local validation completed: cfn-lint 1.56.3 returned no findings for either template; cfn-guard 3.2.1 passed all twelve applicable selected checks. Ten checks were inapplicable to one template. Both cloud change sets passed validation, matched the reviewed additions and were executed after approval.
 2. Recheck the connected account and region, confirm the stack names are unused or belong to Kind, and confirm the reserved concurrency allocation is available. Verify the specific Nova Lite model can be invoked with the intended role policy.
 3. Create the artifact stack. Upload the package through a short lived presigned S3 upload URL to an immutable key such as `kind/<package-sha256>.zip`.
 4. Generate and preserve the demo access code and signing key in an ignored local deployment directory. Supply the digest and signing key as NoEcho parameters. Keep the access code out of tool output and public submission materials.
@@ -56,4 +56,4 @@ docker run --rm --entrypoint python -e KIND_HOSTED=1 -e AWS_EC2_METADATA_DISABLE
 6. Verify the resulting HTTPS endpoint, access restrictions, live AI job, approval, volunteer response, conditional roster update, persisted state, and visible failure behavior against the actual deployed resources.
 7. Record the exact deployed source commit and package digest. Add the verified demo URL and judge access instructions to the draft. Public repository visibility and final Devpost submission remain separate publication decisions.
 
-No cloud deployment, public release, final contest submission or real nonprofit operation is established by local tests alone.
+The hosted demo is verified through the actual cloud endpoint. The repository remains private and the hackathon entry has not been submitted. No real nonprofit operation is claimed.

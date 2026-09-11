@@ -14,15 +14,15 @@ Kind identifies uncovered shifts in a sample nonprofit roster, finds eligible vo
 
 ## How we built it
 
-The interface uses React, TypeScript, and Vite. A Python/FastAPI backend stores the local workflow in SQLite. A Strands agent can read shift context, check eligibility, and stage an invitation with Amazon Bedrock. Approval and assignment are separate server controlled steps, beyond the agent's tool permissions. An explicit rules mode supports offline demonstrations. The prepared AWS version uses DynamoDB persistence, coordinator access control, and a private Lambda worker for AI preparation, with a persisted daily usage limit. That version has not yet been deployed.
+The interface uses React, TypeScript, and Vite. A Python/FastAPI backend stores the local workflow in SQLite. The deployed AWS version uses DynamoDB, coordinator access control, API Gateway and a private Lambda worker for AI preparation, with a persisted daily usage limit. A Strands agent uses Amazon Bedrock to read shift context, check eligibility and stage an invitation. Approval and assignment are separate server controlled steps beyond the model's tool permissions. An explicit rules mode supports demonstrations without model calls.
 
 ## What we verified
 
-The expanded suite passed 38 tests, with one database specific skip, covering the workflow on SQLite and simulated DynamoDB, coordinator access, competing responses and background job boundaries. The local browser workflow was exercised through acceptance and roster readback. The packaged application passed a smoke test inside the official Lambda Python container. The real Strands tool loop was also tested with live Bedrock responses through AWS Core; the standalone live endpoint remains to be deployed and verified.
+The expanded suite passed 38 tests, with one database specific skip, covering the workflow on SQLite and simulated DynamoDB, coordinator access, competing responses and background job boundaries. The local browser workflow was exercised through acceptance and roster readback. The packaged application passed a smoke test inside the official Lambda Python container. The deployed HTTPS API then completed the real Strands and Nova Lite preparation, approval and volunteer acceptance workflow. Repeated acceptance did not overfill the shift, and the roster remained saved after sign out and a new session.
 
 ## What remains before submission
 
-- A judge-accessible working build with the intended live model integration.
+- Judge access instructions for the deployed build at https://idwgz9gl09.execute-api.us-west-2.amazonaws.com. The private coordinator code must be shared through an appropriate judging access field, not a public project description.
 - Public repository visibility and final source/license review.
 - A public video of at most five minutes, showing the real working flow.
 - Final architecture and testing instructions checked against the shipped build.

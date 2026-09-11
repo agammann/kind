@@ -1,0 +1,68 @@
+{
+  "account": "114599789754",
+  "region": "us-west-2",
+  "demo_url": "https://idwgz9gl09.execute-api.us-west-2.amazonaws.com",
+  "stacks": {
+    "artifacts": "CREATE_COMPLETE",
+    "application": "CREATE_COMPLETE"
+  },
+  "outputs": [
+    {
+      "OutputKey": "DemoUrl",
+      "OutputValue": "https://idwgz9gl09.execute-api.us-west-2.amazonaws.com",
+      "Description": "Coordinator sign in and volunteer response pages over HTTPS."
+    },
+    {
+      "OutputKey": "WorkspaceTableName",
+      "OutputValue": "kind-demo-WorkspaceTable-1XXBIQNYF1VMC",
+      "Description": "Retained sample workspace table."
+    },
+    {
+      "OutputKey": "FailedJobQueue",
+      "OutputValue": "https://sqs.us-west-2.amazonaws.com/114599789754/kind-demo-FailureQueue-gejO9UqNoeIj",
+      "Description": "Retained queue of failed worker deliveries."
+    }
+  ],
+  "package_sha256": "810f330ec05094e64e3da4edd64775b101de77937b84ebbcfb3c0582c09d88e6",
+  "package_bytes": 29434237,
+  "package_source_commit": "6c1920979fe2f364267235612ef9f3b6d72e3b57",
+  "runtime": {
+    "functions": [
+      {
+        "name": "kind-demo-api",
+        "state": "Active",
+        "last_update": "Successful",
+        "runtime": "python3.12",
+        "role": "arn:aws:iam::114599789754:role/kind-demo-ApiRole-rxST94A1DXVS",
+        "code_sha256": "gQ8zDsBQlOZOPaTt1kd1sQHed5N7hOu8+zwFgsCdiOY="
+      },
+      {
+        "name": "kind-demo-worker",
+        "state": "Active",
+        "last_update": "Successful",
+        "runtime": "python3.12",
+        "role": "arn:aws:iam::114599789754:role/kind-demo-WorkerRole-Xsj8YQtMjX9t",
+        "code_sha256": "gQ8zDsBQlOZOPaTt1kd1sQHed5N7hOu8+zwFgsCdiOY="
+      }
+    ],
+    "worker_concurrency": {
+      "ReservedConcurrentExecutions": 1
+    },
+    "live_runs_today": {
+      "day": "2026-09-11",
+      "count": 1
+    },
+    "agent_run_sources": [
+      "bedrock"
+    ],
+    "first_shift": {
+      "assigned_count": 2,
+      "required": 2
+    },
+    "invitation_statuses": [
+      "accepted"
+    ]
+  },
+  "scope": "Protected fictional sample demo. One live model workflow verified. Does not establish production reliability or real nonprofit adoption.",
+  "recorded_at": "2026-09-11T02:13:33.859659+00:00"
+}

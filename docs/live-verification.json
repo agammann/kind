@@ -1,0 +1,22 @@
+{
+  "url": "https://idwgz9gl09.execute-api.us-west-2.amazonaws.com",
+  "checked_at": "2026-09-11T02:10:09.772282+00:00",
+  "checks": [
+    "Hosted API reports live model configuration",
+    "Anonymous workspace access and incorrect coordinator login are rejected",
+    "Coordinator login issues a secure HTTPOnly cookie",
+    "Cross origin mutation is rejected",
+    "Live AI request is admitted as an asynchronous job",
+    "Real Strands tool loop saves an unapproved draft without changing the roster",
+    "Only coordinator approval activates the scoped volunteer response page",
+    "Acceptance fills the shift and repeated acceptance does not overfill it",
+    "Roster remains saved after sign out and a new coordinator session"
+  ],
+  "agent_tools": [
+    "check_eligibility",
+    "get_shift_context",
+    "prepare_invitation"
+  ],
+  "status": "passed",
+  "scope": "One live Bedrock sample preparation, explicit approval and volunteer acceptance through the public HTTPS API. No external messages or real people."
+}
