@@ -1,6 +1,6 @@
 # Kind AWS deployment plan
 
-Status: implementation, deployment package and local template validation are complete. No Kind cloud resources have been created. The live deployment and its runtime permissions are not yet verified. AWS Core requested reauthentication during the account preflight, before its requested AWS API calls could run.
+Status: implementation, deployment package, local template validation and AWS account preflight are complete. The reconnected AWS Core connector accepted both templates and confirmed model availability. An unexecuted artifact change set and REVIEW_IN_PROGRESS stack shell exist; no application infrastructure has been provisioned. See `aws-preflight.md` for the exact reviewed changes and approval scope. The live deployment and its runtime permissions are not yet verified.
 
 Target: the connected AWS account, region `us-west-2`. Use the AWS Core connector for deployment. The connector connection does not give the standalone local app SDK credentials, and no credentials need to be exported from it.
 
@@ -48,7 +48,7 @@ docker run --rm --entrypoint python -e KIND_HOSTED=1 -e AWS_EC2_METADATA_DISABLE
 
 ## Deployment sequence after approval
 
-1. Local validation is complete: cfn-lint 1.56.3 returned no findings for either template; cfn-guard 3.2.1 passed all twelve applicable selected checks. Ten checks were inapplicable to one of the templates. See `infra/guard/README.md` for rule scope and `docs/infra-validation.json` for the machine readable results and template hashes. Reauthenticate AWS Core, then finish cloud account checks and a CloudFormation change set review before execution.
+1. Local validation is complete: cfn-lint 1.56.3 returned no findings for either template; cfn-guard 3.2.1 passed all twelve applicable selected checks. Ten checks were inapplicable to one of the templates. See `infra/guard/README.md` for rule scope and `docs/infra-validation.json` for the machine readable results and template hashes. Cloud account checks and artifact change set review have passed; execution awaits deployment approval.
 2. Recheck the connected account and region, confirm the stack names are unused or belong to Kind, and confirm the reserved concurrency allocation is available. Verify the specific Nova Lite model can be invoked with the intended role policy.
 3. Create the artifact stack. Upload the package through a short lived presigned S3 upload URL to an immutable key such as `kind/<package-sha256>.zip`.
 4. Generate and preserve the demo access code and signing key in an ignored local deployment directory. Supply the digest and signing key as NoEcho parameters. Keep the access code out of tool output and public submission materials.
