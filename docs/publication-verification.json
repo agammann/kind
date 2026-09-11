@@ -26,5 +26,15 @@
     "Country of Residence",
     "AWS Builder ID"
   ],
-  "video_url": null
+  "video_url": "https://www.youtube.com/watch?v=XjpDlKANTAY",
+  "video_visibility": "public",
+  "youtube_publication_confirmed": true,
+  "youtube_copyright_check": "No issues found at publication",
+  "youtube_oembed_unauthenticated": true,
+  "public_playback_seconds_verified": 25.56,
+  "public_player_duration_seconds": 179.941,
+  "english_subtitles": "Uploaded timed narration file and saved in YouTube Studio",
+  "devpost_video_embed_verified": true,
+  "public_devpost_page_contains_coordinator_code": false,
+  "private_judge_access_instructions": "Saved with explicit user approval and exact readback verified; credential omitted from this public record"
 }

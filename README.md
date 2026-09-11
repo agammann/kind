@@ -2,6 +2,8 @@
 
 **Keep volunteer shifts covered, so coordinators can focus on their community.**
 
+**Narrated demo:** [Watch Kind on YouTube](https://www.youtube.com/watch?v=XjpDlKANTAY). This three minute recording shows the actual deployed workflow with Amazon Polly Matthew narration and captions.
+
 Kind is a working volunteer coordinator for the **Good Neighbor Agents** track of the Agents for Humans Hackathon. It combines a volunteer coverage workflow with Strands Agents and Amazon Bedrock, and runs locally or as a protected AWS sample demo.
 
 **Hosted demo:** [Open Kind](https://idwgz9gl09.execute-api.us-west-2.amazonaws.com). Coordinator access requires the private demo code. All organization and volunteer records are fictional. The live preparation, approval, acceptance and saved roster workflow has been verified; see [live verification](docs/live-verification.json).

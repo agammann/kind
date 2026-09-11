@@ -76,7 +76,9 @@ The repository is public following the owner's explicit release approval. An una
 
 ## Demo Video
 
-Public URL: TODO after reviewing and uploading the prepared video.
+Public URL: https://www.youtube.com/watch?v=XjpDlKANTAY
+
+YouTube confirmed Video published with public visibility. Copyright checks reported no issues. The English narration subtitle file is saved, the public player was verified through playback, and Devpost embeds this video.
 
 Target: a captioned screen demonstration under five minutes, covering the problem, audience, working flow and why it matters. The recording uses the actual deployed app, editorial title cards and captions. No real people, external messages or impact metrics are represented. The selected version uses Matthew neural narration from Amazon Polly, with the existing captions retained.
 
@@ -98,7 +100,7 @@ Official requirements and judging criteria were fetched live through the Devpost
 
 The updated local test suite passed 48 tests, with one database specific skip. The frontend built successfully, and the updated package passed the official Lambda Python 3.12 container smoke test. The original deployed live API workflow passed nine checks. The recording pass separately verifies the updated deployed interface.
 
-The existing Devpost project page is updated with the reviewed writeup, five captioned workflow screenshots, architecture diagram and demo/repository links. The diagram is also saved in the required attachment field. Individual entry and the Good Neighbor Agents track are saved. The hackathon entry remains a draft with no submitted timestamp. A public video URL, personal declarations, judge access instructions and final submission remain outstanding. The published writeup is recorded in docs/devpost-public-writeup.md.
+The existing Devpost project page is updated with the reviewed writeup, narrated YouTube video, five captioned workflow screenshots, architecture diagram and demo/repository links. The diagram is also saved in the required attachment field. Individual entry and the Good Neighbor Agents track are saved. After explicit approval, the coordinator access code and testing instructions were saved in Devpost's field for judges and organizers and verified after reopening. The hackathon entry remains a draft with no submitted timestamp. AWS Builder ID, country of residence and final submission remain outstanding. The published writeup is recorded in docs/devpost-public-writeup.md.
 
 ## Known Limitations
 
@@ -116,7 +118,7 @@ One shared fictional organization; no managed user identities, organization isol
 | Architecture diagram | 27734 | kind-architecture.png attached and verified after reopening the draft |
 | AWS Builder ID | 27735 | TODO user supplied Builder ID |
 | Live demo | 27736 | https://idwgz9gl09.execute-api.us-west-2.amazonaws.com |
-| Testing instructions | 28191 | Use Testing Instructions above; settle private code delivery first |
+| Testing instructions | 28191 | Walkthrough and coordinator code saved in the private judging field with explicit approval |
 | Optional bonus blog | 27737 | Omit unless an actual post is publicly published on builder.aws |
 
 The fetched official form does not ask for a Codex session ID. Do not add one.
