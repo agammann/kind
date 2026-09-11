@@ -14,6 +14,7 @@ Kind is a working volunteer coordinator for the **Good Neighbor Agents** track o
 - Eligibility checks for full-shift availability, qualifications, existing assignments, opt-in, and a three-invitation weekly contact limit.
 - Deterministic rules mode that prepares a draft without making model calls.
 - A real Strands agent with three bounded tools: `get_shift_context`, `check_eligibility`, and `prepare_invitation`.
+- Invitation wording formatted from saved shift facts, with local time and daylight saving conversion handled by the server. The model selects an eligible volunteer and stages the draft; the coordinator can edit its text.
 - Human review and editing before an invitation becomes an active response link.
 - A volunteer page with accept/decline actions. Acceptance atomically updates the roster, with current eligibility and remaining capacity rechecked.
 - Idempotent repeat approvals/responses, expired and revoked links, and competing acceptances handled without overfilling.
@@ -63,7 +64,7 @@ For frontend development, keep the Python server running and use `pnpm dev` in a
 6. Use another open shift to try **Not this time**, then prepare an invitation for the next eligible person.
 7. Use **Record cancellation** to reopen a covered shift. Kind will avoid immediately re-inviting the person who cancelled.
 
-The hosted sample's Saturday shift is already covered from live verification. Select **Pantry preparation** to try another invitation. To exercise the model, choose **Strands + Amazon Bedrock** before preparing it.
+The hosted sample may already be covered from verification or another review. Use **Restart sample** in the footer and review the confirmation to create fresh future shifts. This replaces the shared fictional roster and invalidates previous sample links, while preserving the daily AI allowance. It refuses to run during an active preparation. To exercise the model, choose **Strands + Amazon Bedrock** before preparing an invitation.
 
 ## Live Strands + Bedrock
 
@@ -90,7 +91,7 @@ The tests cover persistent state, approval boundaries, eligibility changes, cont
 
 ## Architecture and limits
 
-See [architecture](docs/architecture.md), [scope](docs/scope.md), [verification](docs/verification.md), [AWS deployment plan](docs/aws-deployment.md), and [submission draft](docs/submission-draft.md).
+See [architecture](docs/architecture.md), [scope](docs/scope.md), [verification](docs/verification.md), [AWS deployment plan](docs/aws-deployment.md), and the [complete submission draft](devpost-submission.md).
 
 This is a **single organization sample workspace**, not a service for real nonprofit operations. Local mode bootstraps coordinator sessions and binds only to loopback. Hosted mode requires an access code and uses secure signed cookies, a trusted HTTPS origin and DynamoDB. Volunteer links are bearer links. Managed identity, organization isolation, operational data entry, backup procedures and user validation remain future work. No real nonprofit adoption or impact metrics are claimed.
 

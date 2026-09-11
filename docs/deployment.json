@@ -64,5 +64,52 @@
     ]
   },
   "scope": "Protected fictional sample demo. One live model workflow verified. Does not establish production reliability or real nonprofit adoption.",
-  "recorded_at": "2026-09-11T02:13:33.859659+00:00"
+  "recorded_at": "2026-09-11T02:13:33.859659+00:00",
+  "updates": [
+    {
+      "recorded_at": "2026-09-11T02:48:49.227181+00:00",
+      "stack": "kind-demo",
+      "status": "UPDATE_COMPLETE",
+      "change_set": "kind-repeatable-sample-20260911",
+      "package_file": "kind-repeatable.zip",
+      "package_sha256": "59c1f40b953beb6d071e0dcc5288108096133bdcfb236c85dde516a0e839f79a",
+      "package_bytes": 29434799,
+      "runtime_source_files_verified": 8,
+      "functions_state": "Active",
+      "functions_last_update": "Successful",
+      "function_code_sha256": "WcH0C5U7620HHg3MUogQgJYTO9z7I2yF3eUWoOg595o=",
+      "tests": {
+        "passed": 44,
+        "skipped": 1
+      },
+      "change": "Confirmed fictional sample restart with future shifts; preserves AI usage and blocks active jobs. Neutral sample wording on the volunteer page.",
+      "live_usage_after_recording_restart": 3,
+      "historical_fields_note": "Top level package and runtime fields preserve the initial deployment evidence. This updates entry is the current deployed package."
+    },
+    {
+      "recorded_at": "2026-09-11T02:57:44.879321+00:00",
+      "stack": "kind-demo",
+      "status": "UPDATE_COMPLETE",
+      "change_set": "kind-authoritative-invitation-20260911",
+      "package_file": "kind-verified-facts.zip",
+      "package_sha256": "4e655f3694113234cb627035fa9fdda38379d741c20b12edf4390f1b75466834",
+      "package_bytes": 29434863,
+      "runtime_source_files_verified": 8,
+      "functions_state": "Active",
+      "functions_last_update": "Successful",
+      "function_code_sha256": "TmVfNpQRMjTLYnA1+p/do4N510HCCxLt9DkPG3VGaDQ=",
+      "tests": {
+        "passed": 48,
+        "skipped": 1
+      },
+      "change": "The invitation tool formats saved shift facts in the organization timezone. The model selects the volunteer and stages the invitation; it no longer supplies logistics prose. No resources added.",
+      "live_browser": {
+        "passed": true,
+        "duration_seconds": 179.92,
+        "invitation_schedule_verified": true,
+        "daily_usage_count_after_run": 4
+      }
+    }
+  ],
+  "current_package_sha256": "4e655f3694113234cb627035fa9fdda38379d741c20b12edf4390f1b75466834"
 }

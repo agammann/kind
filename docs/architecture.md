@@ -1,5 +1,9 @@
 # Kind architecture
 
+![Deployed Kind architecture](assets/kind-architecture.png)
+
+The PNG is the Devpost attachment. Its editable source is [kind-architecture.svg](assets/kind-architecture.svg).
+
 ```mermaid
 flowchart LR
   C[Coordinator browser] -->|local session| API[FastAPI]
@@ -20,6 +24,8 @@ flowchart LR
 ## Authority boundaries
 
 The model has no approval, contact, or assignment tool. Tools close over a server-selected shift ID; the model cannot switch organizations or arbitrary shifts. Eligibility constraints are implemented outside the model. The model may stage at most one candidate per run, and the application persists it only after the run returns successfully.
+
+The invitation tool takes the selected volunteer ID and formats the message from authoritative shift data. The model cannot substitute a different date, location or timezone conversion in the saved draft. This addresses a live recording finding where Nova Lite described the UTC clock as local time. Coordinator edits remain available and require human review.
 
 Approval requires a coordinator session and the exact reviewed text. This creates a cryptographically random bearer response link; it does not send a message. The volunteer route exposes only the addressed volunteer's first-party invitation and relevant shift details. It does not return the volunteer directory or roster.
 
@@ -55,5 +61,7 @@ Only the API function can queue the private worker. It reserves a persisted dail
 The local coverage watcher runs every thirty seconds. The Lambda deployment scans when an authenticated coordinator loads or polls the workspace; it does not promise a continuously running background timer.
 
 ## Work remaining before real nonprofit use
+
+The coordinator can explicitly restart only the fictional sample. The server creates fresh future shift dates, invalidates previous sample links and preserves internal usage counters. An active preparation blocks restart. The UI explains the shared data replacement and requires a second confirmation. This is a demo operation, not a production data management feature.
 
 The protected demo is deployed and its live workflow is verified; see `deployment.json` and `live-verification.json`. Before real nonprofit use, add managed identity, organization isolation, operational data entry, backup and recovery procedures, and user validation. External email/SMS delivery needs a selected provider, contact consent handling, and delivery/retry tracking. AgentCore is an optional deployment route, not a dependency of this demo.

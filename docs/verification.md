@@ -1,5 +1,22 @@
 # Kind verification
 
+## Authoritative invitation facts update
+
+Video review caught a real model draft describing UTC hours as Pacific time. The invitation tool now takes only the volunteer ID and formats the exact date, local time and location from saved shift data. Its displayed summary is also factual server text. The agent still chooses the volunteer through its context and eligibility tools and stages the draft. Human editing and approval remain explicit.
+
+All 48 tests passed with one database specific skip. Added checks cover Pacific standard and daylight time and verify that invented model prose cannot replace the saved invitation facts. The updated package passed the official Lambda Python 3.12 container smoke test. CloudFormation reached UPDATE_COMPLETE with no failed operation events. Both active function digests match kind-verified-facts.zip. The package's eight runtime source files match the local source.
+
+The final hosted recording checks that the draft contains 09:00 AM to 11:00 AM PDT and the saved pantry location before approving it. The complete updated live browser workflow passed. The final video is 179.92 seconds, with no application errors at desktop or mobile sizes and no horizontal overflow. AWS readback confirmed the accepted invitation contains the correct local time and the persisted daily usage count is 4 after restarts. See [browser verification](browser-verification.json). Earlier deployment and test entries below are historical.
+
+## Repeatable judging update, September 10 Pacific
+
+The existing kind-demo stack reached UPDATE_COMPLETE with no failed operation events. Both Lambda functions are Active with successful updates and code digest matching kind-repeatable.zip. No new resources were added. The server source files in the deployed zip matched the local source before release.
+
+The expanded suite passed 44 tests with one database specific skip. Restart checks exercise SQLite and simulated DynamoDB, future dates, old link revocation, preserved AI allowance, active job rejection, authentication, confirmation body and cross origin protection. The frontend build and official Linux Lambda Python 3.12 package smoke test passed.
+
+The actual hosted browser flow then prepared a live Strands draft, approved the invitation, accepted it and read back the covered roster. A confirmed sample restart also ran on the hosted API. AWS readback showed usage advancing from 2 to 3 for the next recording run, rather than resetting to 1. Desktop 1440x1000 and mobile 390x844 checks reported no application console/page errors or horizontal overflow. The recording uses captions and title cards; it is not a narrated video. Browser plugin not available; bundled Playwright was used with the installed Chromium headless shell. The live sample reset and browser workflow are separate from the original HTTP verification below.
+
+
 ## Approved AWS deployment
 
 Both AWS stacks reached CREATE_COMPLETE after explicit user approval. The hosted endpoint is https://idwgz9gl09.execute-api.us-west-2.amazonaws.com. Both Lambda functions are Active, with successful updates and code digests matching the tested package. The worker has one reserved concurrent execution.

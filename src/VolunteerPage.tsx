@@ -19,6 +19,6 @@ export default function VolunteerPage({token}:{token:string}){
    <Status status={invitation.status}/><section className="invited-shift"><h2>{invitation.shift.title}</h2><ShiftTime shift={invitation.shift}/><ShiftDetails shift={invitation.shift}/></section>
    <p className="invitation-message">{invitation.message}</p>
    {invitation.status==='pending'?<><div className="button-row"><button className="primary" disabled={busy} onClick={()=>void respond('accepted')}>{busy?'Saving…':'I can help'}</button><button className="secondary" disabled={busy} onClick={()=>void respond('declined')}>Not this time</button></div><p className="small-muted">Accepting confirms you can attend the entire shift. It’s always okay to decline.</p></>:<p className="confirmation">{invitation.status==='accepted'?'Your place is confirmed and the coordinator’s roster has been updated.':invitation.status==='declined'?'Your response is saved. The coordinator can look for another volunteer.':'This invitation is no longer available. Please contact your coordinator.'}</p>}
-   <p className="demo-disclosure">This is Kind’s local demo. The people and organization are fictional. Your response updates the sample roster.</p></>}
+   <p className="demo-disclosure">This is Kind’s sample demo. The people and organization are fictional. Your response updates the sample roster.</p></>}
  </main><a className="back-link" href="/"><ArrowLeft size={16}/>Back to sample coordinator workspace</a></div>;
 }

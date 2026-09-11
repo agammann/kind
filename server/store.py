@@ -5,6 +5,7 @@ import json
 import os
 import secrets
 import sqlite3
+import time
 from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -78,6 +79,21 @@ class Store:
     def read(self):
         with self.connect() as conn:
             return json.loads(conn.execute('SELECT document FROM workspace WHERE id=1').fetchone()[0])
+
+    def restart_sample(self):
+        """Explicit coordinator action; never renew the paid AI allowance."""
+        with self.transaction() as state:
+            if state.get('sample_data') is not True:
+                raise WorkflowError('Only a fictional sample workspace can be restarted.',403)
+            job=state.get('_job',{})
+            if job.get('status') in ('pending','running') and job.get('expires',0)>time.time():
+                raise WorkflowError('Wait for the current preparation to finish before restarting the sample.')
+            internal={k:v for k,v in state.items() if k.startswith('_') and k!='_job'}
+            state.clear()
+            state.update(seed_state())
+            state.update(internal)
+            event(state,'Sample restarted','Fresh future shifts are ready. Previous sample invitation links are no longer valid.')
+        return {'status':'restarted'}
 
     @staticmethod
     def find(state, collection, item_id):
@@ -231,4 +247,3 @@ class Store:
         with self.transaction() as state:
             state['agent_runs'].insert(0,{'id':secrets.token_hex(8),'at':iso(utcnow()),'shift_id':shift_id,'source':source,'trace':trace,'result':result})
             state['agent_runs']=state['agent_runs'][:30]
-

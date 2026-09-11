@@ -1,5 +1,7 @@
 # Kind — submission working copy
 
+The complete current packet is [devpost-submission.md](../devpost-submission.md), including confirmed individual entry, official field IDs, judging instructions and captured asset locations. This shorter writeup remains useful for the project description.
+
 Track: Good Neighbor Agents
 
 Tagline: Keep volunteer shifts covered, so coordinators can focus on their community.
@@ -18,7 +20,11 @@ The interface uses React, TypeScript, and Vite. A Python/FastAPI backend stores 
 
 ## What we verified
 
-The expanded suite passed 38 tests, with one database specific skip, covering the workflow on SQLite and simulated DynamoDB, coordinator access, competing responses and background job boundaries. The local browser workflow was exercised through acceptance and roster readback. The packaged application passed a smoke test inside the official Lambda Python container. The deployed HTTPS API then completed the real Strands and Nova Lite preparation, approval and volunteer acceptance workflow. Repeated acceptance did not overfill the shift, and the roster remained saved after sign out and a new session.
+The expanded suite passed 48 tests, with one database specific skip, covering the workflow on SQLite and simulated DynamoDB, coordinator access, competing responses, sample restart, time conversion and background job boundaries. The local browser workflow was exercised through acceptance and roster readback. The packaged application passed a smoke test inside the official Lambda Python container. The deployed HTTPS API and browser then completed real Strands and Nova Lite preparation, approval and volunteer acceptance workflows. Repeated acceptance did not overfill the shift, and the roster remained saved after sign out and a new session.
+
+## Challenges and what we learned
+
+Running the complete flow exposed problems a recommendation mockup would miss. Hosted AI preparation needed an asynchronous worker so the browser could poll while the model ran. A shared sample also needed a confirmed restart so judges could try future shifts without renewing the paid AI allowance. Finally, a recorded live model run converted a shift time incorrectly. The invitation tool now formats dates, times and location directly from the saved shift; the model selects the volunteer and stages the draft while the coordinator retains editing and approval.
 
 ## What remains before submission
 
@@ -29,4 +35,4 @@ The expanded suite passed 38 tests, with one database specific skip, covering th
 - AWS Builder ID and other user-only submission fields.
 - Explicit final submission approval.
 
-All people and organizations in the current demo are fictional. No claims of deployment, adoption, volunteer hours saved, or external message delivery should be added without evidence.
+All people and organizations in the current demo are fictional. Deployment is verified. No claims of adoption, volunteer hours saved, or external message delivery should be added without evidence.

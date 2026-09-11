@@ -67,20 +67,22 @@ def prepare(store: Store, shift_id: str, mode: str, model=None):
         return result
 
     @tool
-    def prepare_invitation(volunteer_id: str, message: str) -> dict:
-        """Stage exactly one invitation for human review. Does not approve, send or assign.
+    def prepare_invitation(volunteer_id: str) -> dict:
+        """Stage one invitation using server-formatted shift facts. Does not approve, send or assign.
 
         Args:
             volunteer_id: ID from the eligible candidates list.
-            message: Short, factual invitation that permits a pressure-free decline.
         """
         if not all(checked.values()): return {'error':'Read shift context and check eligibility first.'}
         if staged: return {'error':'An invitation is already staged.'}
         if volunteer_id not in [v['id'] for v in store.candidates(shift_id)['eligible']]: return {'error':'Volunteer is not currently eligible.'}
-        if not message.strip() or len(message)>2000: return {'error':'Invalid message length.'}
+        current=store.read()
+        selected_shift=store.find(current,'shifts',shift_id)
+        selected_volunteer=store.find(current,'volunteers',volunteer_id)
+        message=default_message(selected_shift,selected_volunteer['name'],current['timezone'])
         staged.append({'volunteer_id':volunteer_id,'message':message})
         trace.append({'tool':'prepare_invitation','detail':'Staged an invitation for human review; no message sent.'})
-        return {'status':'staged_for_human_review','volunteer_id':volunteer_id}
+        return {'status':'staged_for_human_review','volunteer_id':volunteer_id,'message':message}
 
     try:
         selected_model=model or BedrockModel(model_id=os.environ['KIND_BEDROCK_MODEL_ID'],
@@ -94,7 +96,9 @@ def prepare(store: Store, shift_id: str, mode: str, model=None):
             invitation=store.draft(shift_id,staged[0]['volunteer_id'],staged[0]['message'],'bedrock')
         elif store.candidates(shift_id)['eligible']:
             raise WorkflowError('The agent did not prepare a draft. Try again or use rules mode.',503)
-        result={'summary':str(answer),'invitation':invitation,'source':'bedrock','trace':trace}
+        summary=('Strands checked the shift and eligibility, then staged this invitation for your review. '
+                 'Its schedule and location come directly from the saved shift; nothing has been approved or sent.') if invitation else str(answer)
+        result={'summary':summary,'invitation':invitation,'source':'bedrock','trace':trace}
         store.save_run(shift_id,'bedrock',trace,result['summary'])
         return result
     except WorkflowError: raise

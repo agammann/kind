@@ -1,5 +1,9 @@
 # Kind AWS deployment plan
 
+Current package: `kind-verified-facts.zip`, SHA256 `4e655f3694113234cb627035fa9fdda38379d741c20b12edf4390f1b75466834`. Change set `kind-authoritative-invitation-20260911` reached UPDATE_COMPLETE. Both active function hashes match. Invitation logistics now come from saved shift data rather than model prose; 48 tests and the Linux package smoke passed. The template and resource count are unchanged. Earlier updates below retain their historical evidence.
+
+Latest update: `kind-repeatable-sample-20260911` reached `UPDATE_COMPLETE`. The current artifact is `kind-repeatable.zip`, SHA256 `59c1f40b953beb6d071e0dcc5288108096133bdcfb236c85dde516a0e839f79a`. Both active function digests match it. This adds confirmed sample restart and corrects hosted sample wording; it adds no resources and keeps the previous template, access parameters and AI allowance. Package references below describe the initial deployment and remain reproducible historical instructions.
+
 Status: deployed and verified after explicit user approval. Both `kind-artifacts` and `kind-demo` reached CREATE_COMPLETE in `us-west-2`. The actual HTTPS workflow completed live Bedrock preparation, coordinator approval and volunteer acceptance, with the roster saved in DynamoDB. See `deployment.json` and `live-verification.json` for evidence. `aws-preflight.md` records the earlier review and approval scope.
 
 Target: the connected AWS account, region `us-west-2`. Use the AWS Core connector for deployment. The connector connection does not give the standalone local app SDK credentials, and no credentials need to be exported from it.

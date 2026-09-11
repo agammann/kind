@@ -97,6 +97,14 @@ def create_app(store=None, *, auth=None, public_host=None, jobs=None):
     @app.get('/api/shifts/{shift_id}/candidates',dependencies=[Depends(coordinator)])
     def candidates(shift_id:str): return workspace.candidates(shift_id)
 
+    class RestartSample(BaseModel): confirm: Literal['restart fictional sample']
+
+    @app.post('/api/sample/restart',dependencies=[Depends(coordinator)])
+    async def restart_sample(body:RestartSample):
+        if agent_lock.locked(): raise WorkflowError('Wait for preparation to finish before restarting the sample.')
+        async with agent_lock:
+            return await asyncio.to_thread(workspace.restart_sample)
+
     class PrepareRequest(BaseModel): mode: Literal['rules','bedrock']='rules'
 
     @app.post('/api/shifts/{shift_id}/prepare',dependencies=[Depends(coordinator)])

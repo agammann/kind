@@ -1,0 +1,62 @@
+{
+  "url": "https://idwgz9gl09.execute-api.us-west-2.amazonaws.com",
+  "checked_at": "2026-09-11T02:58:04.36Z",
+  "duration_seconds": 169.081,
+  "viewports": [
+    "1440x1000",
+    "390x844"
+  ],
+  "errors": [],
+  "mobile_horizontal_overflow": false,
+  "live_agent": true,
+  "scenario": "s2",
+  "steps": [
+    {
+      "at_seconds": 16,
+      "caption": "For small nonprofits and food banks. This is the deployed AWS app with fictional volunteers and shifts."
+    },
+    {
+      "at_seconds": 26,
+      "caption": "Pantry preparation needs one volunteer. Kind checks availability, qualifications, conflicts, opt in and contact limits."
+    },
+    {
+      "at_seconds": 38,
+      "caption": "We choose Strands + Amazon Bedrock. This run uses the real Nova Lite model, with three bounded tools."
+    },
+    {
+      "at_seconds": 57,
+      "caption": "Strands prepared a draft. The agent cannot approve the invitation, send a message or assign a volunteer."
+    },
+    {
+      "at_seconds": 68,
+      "caption": "The coordinator can edit the exact invitation. Only their approval activates the response link."
+    },
+    {
+      "at_seconds": 79,
+      "caption": "Approval creates a scoped response page. This demo does not send email or SMS; the link can be shared manually."
+    },
+    {
+      "at_seconds": 90,
+      "caption": "The volunteer sees their invitation and shift, then accepts or declines. They do not get the full roster."
+    },
+    {
+      "at_seconds": 102,
+      "caption": "Acceptance checks eligibility and remaining capacity again, then saves the assignment. Repeat responses cannot overfill it."
+    },
+    {
+      "at_seconds": 114,
+      "caption": "The coordinator now sees the shift covered. The roster and activity persist in DynamoDB across sessions."
+    },
+    {
+      "at_seconds": 124,
+      "caption": "Saved preparation history shows the real tool activity. Model preparation stays separate from approval and acceptance."
+    },
+    {
+      "at_seconds": 136,
+      "caption": "Judges can restart the fictional sample for future shifts. Confirmation explains the reset; the daily AI allowance is preserved."
+    }
+  ],
+  "recording": "Actual deployed UI with editorial caption overlays and title cards. No narration audio. A confirmed API sample restart created fresh data before recording. The UI confirmation was later opened and cancelled.",
+  "video_duration_seconds": 179.92,
+  "invitation_schedule_assertion": "09:00 AM to 11:00 AM PDT and saved pantry location verified before approval"
+}
