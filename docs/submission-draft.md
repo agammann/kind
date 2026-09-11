@@ -26,13 +26,12 @@ The expanded suite passed 48 tests, with one database specific skip, covering th
 
 Running the complete flow exposed problems a recommendation mockup would miss. Hosted AI preparation needed an asynchronous worker so the browser could poll while the model ran. A shared sample also needed a confirmed restart so judges could try future shifts without renewing the paid AI allowance. Finally, a recorded live model run converted a shift time incorrectly. The invitation tool now formats dates, times and location directly from the saved shift; the model selects the volunteer and stages the draft while the coordinator retains editing and approval.
 
-## What remains before submission
+## Submission completion
 
-- AWS Builder ID and other user-only submission fields.
-- Explicit final submission approval.
+All required fields were saved and the user approved final submission. Devpost recorded submission 1176041 on September 10, 2026 at 8:50 p.m. Pacific. Both the connector and refreshed browser confirmed completion. Private judge instructions were verified unchanged after submission.
 
 All people and organizations in the current demo are fictional. Deployment is verified. No claims of adoption, volunteer hours saved, or external message delivery should be added without evidence.
 
 ## Publication status
 
-The repository is public under its included MIT license, verified through an unauthenticated GitHub request. The existing Devpost page contains the reviewed writeup, narrated YouTube demo, five captioned screenshots and architecture diagram. The required architecture attachment, individual entry, track and demo/repository URLs are saved in the draft. The coordinator code and walkthrough are saved in the private judging field with explicit approval. See [published writeup](devpost-public-writeup.md) and [publication verification](publication-verification.json). The hackathon entry has not been submitted.
+The repository is public under its included MIT license, verified through an unauthenticated GitHub request. The existing Devpost page contains the reviewed writeup, narrated YouTube demo, five captioned screenshots and architecture diagram. The required architecture attachment, individual entry, track and demo/repository URLs are saved in the completed entry. The coordinator code and walkthrough are saved in the private judging field with explicit approval. See [published writeup](devpost-public-writeup.md) and [publication verification](publication-verification.json). The hackathon entry is submitted, with 5/5 steps complete.

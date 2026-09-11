@@ -21,11 +21,11 @@
   "repository_license": "MIT",
   "repository_license_unauthenticated_http_status": 200,
   "repository_blocker": null,
-  "hackathon_submitted": false,
-  "missing_personal_fields": [
-    "Country of Residence",
-    "AWS Builder ID"
-  ],
+  "hackathon_submitted": true,
+  "submission_id": 1176041,
+  "submitted_at": "2026-09-10T23:50:01.446-04:00",
+  "submission_verification": "Devpost connector readback and refreshed browser: SUBMITTED, 5/5 steps done, Project submitted!",
+  "missing_personal_fields": [],
   "video_url": "https://www.youtube.com/watch?v=XjpDlKANTAY",
   "video_visibility": "public",
   "youtube_publication_confirmed": true,
@@ -36,5 +36,8 @@
   "english_subtitles": "Uploaded timed narration file and saved in YouTube Studio",
   "devpost_video_embed_verified": true,
   "public_devpost_page_contains_coordinator_code": false,
-  "private_judge_access_instructions": "Saved with explicit user approval and exact readback verified; credential omitted from this public record"
+  "private_judge_access_instructions": "Saved with explicit user approval and exact readback verified; credential omitted from this public record",
+  "devpost_steps_complete": "5/5",
+  "personal_fields": "Verified and saved in the private Devpost form; identifiers omitted from this record",
+  "final_submission": "Submitted with user approval; private judge instructions verified unchanged after submission"
 }

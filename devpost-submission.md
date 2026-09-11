@@ -100,23 +100,23 @@ Official requirements and judging criteria were fetched live through the Devpost
 
 The updated local test suite passed 48 tests, with one database specific skip. The frontend built successfully, and the updated package passed the official Lambda Python 3.12 container smoke test. The original deployed live API workflow passed nine checks. The recording pass separately verifies the updated deployed interface.
 
-The existing Devpost project page is updated with the reviewed writeup, narrated YouTube video, five captioned workflow screenshots, architecture diagram and demo/repository links. The diagram is also saved in the required attachment field. Individual entry and the Good Neighbor Agents track are saved. After explicit approval, the coordinator access code and testing instructions were saved in Devpost's field for judges and organizers and verified after reopening. The hackathon entry remains a draft with no submitted timestamp. AWS Builder ID, country of residence and final submission remain outstanding. The published writeup is recorded in docs/devpost-public-writeup.md.
+The existing Devpost project page contains the reviewed writeup, narrated YouTube video, five captioned workflow screenshots, architecture diagram and demo/repository links. The diagram is also saved in the required attachment field. Individual entry, the Good Neighbor Agents track and required personal fields are saved. The coordinator access code and testing instructions are saved in Devpost's private field for judges and organizers and were verified unchanged after submission. With user approval, Kind was submitted on September 10, 2026 at 8:50 p.m. Pacific. The connector records a submitted timestamp, and the refreshed browser shows SUBMITTED, 5/5 steps done and Project submitted! The published writeup is recorded in docs/devpost-public-writeup.md.
 
 ## Known Limitations
 
 One shared fictional organization; no managed user identities, organization isolation, real operational data entry, nonprofit user validation or measured impact. No email/SMS delivery. Restarting the sample changes the shared demo for other reviewers and invalidates old links, so it requires explicit confirmation. AWS usage is metered; the daily AI admission count is not a hard dollar cap. No continuous AWS background watcher is claimed: hosted coverage checks occur when the coordinator loads or polls the workspace.
 
-## TODO Official Form Fields
+## Completed Official Form Fields
 
 | Field | ID | Draft value or required action |
 | --- | --- | --- |
 | Submitter Type | 27729 | Individual, confirmed by the user |
-| Country of Residence | 27730 | TODO user confirmation |
+| Country of Residence | 27730 | User confirmed; saved in private form |
 | Organization name | 27731 | Not applicable for an individual entry |
 | Track | 27732 | Good Neighbor Agents |
 | PUBLIC code repo | 27733 | https://github.com/agammann/kind ; public visibility verified, MIT license detected |
 | Architecture diagram | 27734 | kind-architecture.png attached and verified after reopening the draft |
-| AWS Builder ID | 27735 | TODO user supplied Builder ID |
+| AWS Builder ID | 27735 | Verified with user profile and saved in private form; identifier omitted here |
 | Live demo | 27736 | https://idwgz9gl09.execute-api.us-west-2.amazonaws.com |
 | Testing instructions | 28191 | Walkthrough and coordinator code saved in the private judging field with explicit approval |
 | Optional bonus blog | 27737 | Omit unless an actual post is publicly published on builder.aws |
