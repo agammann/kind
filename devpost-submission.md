@@ -22,9 +22,9 @@ Strands Agents SDK runs in a private AWS Lambda worker and uses Amazon Bedrock N
 
 Each run allows at most five model calls and 900 output tokens per call. A persisted allowance admits at most 20 live AI runs per UTC day. A separate, explicitly labeled rules mode is available without model calls. Provider errors are shown instead of silently replacing AI with rules.
 
-## How We Used Codex
+## Implementation and verification
 
-Codex assisted with the React interface, Python workflow, tests, AWS templates and deployment. It helped separate model preparation from human approval, verify eligibility and concurrent response boundaries, and exercise the real deployed workflow. The initial visual concept was generated with the image generation tool; the functional interface is React and CSS. Codex also identified that fixed sample dates would expire before judging and added a confirmed sample restart that preserves the AI allowance.
+The React interface, Python workflow, tests and AWS templates support the deployed workflow. Model preparation is separated from human approval, with eligibility and concurrent response boundaries verified against the live deployment. The functional interface uses React and CSS. A confirmed sample restart keeps fictional dates current while preserving the live model allowance.
 
 ## Key Features
 
