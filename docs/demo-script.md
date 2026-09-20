@@ -24,7 +24,7 @@ Judges can restart the fictional sample to create future shifts and try the flow
 
 React and FastAPI serve the coordinator and volunteer workflow. A private Lambda worker runs Strands and Bedrock. DynamoDB uses conditional writes to protect the roster. The intended benefit is less coordination work and more reliable coverage, with a clear human decision before contacting a volunteer.
 
-Kind is a working fictional sample ready for feedback from nonprofit coordinators. No real nonprofit adoption or measured time savings are claimed. Codex assisted with the design, implementation, tests, deployment and verification.
+Kind is a working fictional sample ready for feedback from nonprofit coordinators. No real nonprofit adoption or measured time savings are claimed.
 
 ## Publication checklist
 
