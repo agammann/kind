@@ -8,7 +8,19 @@ Chromium 153.0.8010.12 exercised the built app at `http://127.0.0.1:8000` with a
 
 The 320-pixel navigation overflow is fixed; 320-, 390- and 1440-pixel viewports fit without horizontal page scrolling. Opening `/invite/%` now shows the normal missing-invitation message and a return link instead of an empty page with `URI malformed`.
 
-The public AWS endpoint returned 200 for its landing page and health check and 401 for unauthenticated workspace access. Its signed-in workflow and Bedrock execution have not been rerun in this review: AWS Core requires reconnection. The deployment evidence below records earlier runs; the current local fixes have not yet been deployed to AWS.
+## Deployed onboarding review, October 2, 2026
+
+The local fixes are now deployed. The existing `kind-demo` stack reached `UPDATE_COMPLETE`; the change set modified only the code artifact for the API and worker functions. Both functions are Active with successful updates and the reviewed package digest. Resources were retained, and permissions, environment settings and dependencies are unchanged. All eight server files and three frontend files match source revision `60b4ef7`; the served HTML, JavaScript and CSS also match the built files byte for byte.
+
+The package reused 4,701 unchanged dependency files from the previously verified Linux Lambda package after checking the dependency locks. The fresh checks passed 48 tests with one expected SQLite skip, `pip check`, the production build, cfn-lint with no findings, and seven applicable Guard checks. Four Guard rules were inapplicable. This update did not rerun the Docker package smoke test; the actual deployed API and worker both ran successfully.
+
+One real Strands and Amazon Nova Lite preparation completed through the signed-in HTTPS browser workflow in 8.985 seconds. Before generation, the saved candidates showed Maya with zero recent invitations and Jordan with two. The agent selected Maya and used all three tools. The draft stayed unapproved, had no response token and left the roster unchanged. Its Saturday, October 3 schedule (09:00 AM to 12:00 PM PDT) and Riverbend Community Pantry location matched the saved shift exactly. Invitation wording is formatted by the server; this check establishes the model's candidate selection and tool use for this case, not unrestricted writing quality.
+
+The coordinator then approved the invitation in the UI. A separate volunteer browser session accepted it, and a repeated acceptance did not overfill the shift. Reloading the coordinator showed both assigned volunteers. Anonymous approval returned 401, a foreign-origin mutation returned 403, and signing out restored the workspace's 401 response. No coordinator-page runtime errors were recorded. The deployed workspace fits at 320, 390 and 1440 pixels; the previous deployed build reproduced the 320-pixel overflow before the update.
+
+Restarting the expired fictional sample preserved its saved allowance (`2026-09-11`, count 4). The subsequent live preparation rolled over normally to the current UTC day (`2026-10-02`, count 1). DynamoDB independently confirmed the completed job, accepted invitation and two assignments for the two-person shift. No real volunteers were involved and no email or SMS was sent.
+
+The hosted API rejects the malformed cookie with 401. API Gateway rejects the raw malformed path `/invite/%` with 400 before it reaches the frontend; the local frontend regression above and a deployed valid-but-missing invitation path were checked separately. See [current live verification](live-verification-2026-10-02.json) and the latest entry in [deployment evidence](deployment.json). Earlier entries below remain historical.
 
 ## Authoritative invitation facts update
 
