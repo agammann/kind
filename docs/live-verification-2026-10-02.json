@@ -1,0 +1,43 @@
+{
+  "url": "https://idwgz9gl09.execute-api.us-west-2.amazonaws.com",
+  "checked_at": "2026-10-02T13:01:45Z",
+  "source_commit": "60b4ef7387a3faf3dde6a5dec97ab70ca627a86b",
+  "status": "passed",
+  "live_preparations": 1,
+  "preparation_seconds": 8.985,
+  "model": "amazon.nova-lite-v1:0",
+  "checks": [
+    "Existing coordinator access signs in through the rendered HTTPS app",
+    "Restarting the expired fictional sample preserves the saved daily allowance",
+    "The model selects the eligible volunteer with the fewest recent invitations",
+    "The real Strands tool loop saves an unapproved draft without a response token or roster change",
+    "The displayed invitation exactly matches the saved shift date, local time and location",
+    "Anonymous approval is rejected",
+    "Explicit coordinator approval activates the volunteer response page",
+    "A separate volunteer session accepts and repeated acceptance does not overfill the shift",
+    "The covered roster remains saved after reload",
+    "Cross-origin mutation is rejected and sign out removes coordinator access",
+    "The workspace fits 320, 390 and 1440 pixel viewports without horizontal scrolling",
+    "Served HTML, JavaScript and CSS match the reviewed build byte for byte"
+  ],
+  "agent_tools": ["get_shift_context", "check_eligibility", "prepare_invitation"],
+  "semantic_check": {
+    "eligible_recent_contacts": {"Maya Chen": 0, "Jordan Ellis": 2},
+    "selected": "Maya Chen",
+    "saved_date": "2026-10-03",
+    "saved_local_time": "09:00 AM to 12:00 PM PDT",
+    "saved_location": "Riverbend Community Pantry",
+    "wording_source": "Server formats saved shift facts; the model selects the candidate and stages the draft."
+  },
+  "independent_dynamodb_readback": {
+    "job_status": "complete",
+    "invitation_status": "accepted",
+    "assigned_count": 2,
+    "required": 2,
+    "usage_before_and_after_sample_reset": {"day": "2026-09-11", "count": 4},
+    "usage_after_live_preparation": {"day": "2026-10-02", "count": 1}
+  },
+  "page_errors": [],
+  "page_errors_scope": "Coordinator page; the separate volunteer page was checked for workflow results without a page-error listener.",
+  "scope": "One fictional live preparation and approval/acceptance workflow. No external messages or real people. Does not establish broad model reliability or production readiness."
+}

@@ -6,7 +6,7 @@
 
 Kind is a volunteer coordination demo you can run, inspect and adapt. Try the complete workflow locally without an AWS account, or connect Strands Agents and Amazon Bedrock to prepare invitation drafts. It was built for the **Good Neighbor Agents** track of the Agents for Humans Hackathon.
 
-**Hosted demo:** [Open Kind](https://idwgz9gl09.execute-api.us-west-2.amazonaws.com). Coordinator access requires the private demo code. All organization and volunteer records are fictional. The live preparation, approval, acceptance and saved roster workflow has been verified; see [live verification](docs/live-verification.json).
+**Hosted demo:** [Open Kind](https://idwgz9gl09.execute-api.us-west-2.amazonaws.com). Coordinator access requires the private demo code. All organization and volunteer records are fictional. The deployed preparation, approval, acceptance and saved roster workflow was rechecked on October 2, 2026; see [live verification](docs/live-verification-2026-10-02.json).
 
 ## What works
 

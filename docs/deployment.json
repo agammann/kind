@@ -109,7 +109,48 @@
         "invitation_schedule_verified": true,
         "daily_usage_count_after_run": 4
       }
+    },
+    {
+      "recorded_at": "2026-10-02T13:01:45Z",
+      "stack": "kind-demo",
+      "status": "UPDATE_COMPLETE",
+      "change_set": "kind-onboarding-20261002-cdec0a83",
+      "package_file": "kind-onboarding-60b4ef7.zip",
+      "package_source_commit": "60b4ef7387a3faf3dde6a5dec97ab70ca627a86b",
+      "package_sha256": "cdec0a83932f32ed923ec008b778c3ac9110195284a95a9fb36524ae1f7d6b98",
+      "package_bytes": 29435006,
+      "runtime_source_files_verified": 8,
+      "frontend_files_verified": 3,
+      "reused_unchanged_dependency_files": 4701,
+      "previous_dependency_package_sha256": "4e655f3694113234cb627035fa9fdda38379d741c20b12edf4390f1b75466834",
+      "functions_state": "Active",
+      "functions_last_update": "Successful",
+      "function_code_sha256": "zewKg5MvMu2SPsAIt3jDrJEQGVKEqVqfs2Ukrh99a5g=",
+      "tests": {
+        "passed": 48,
+        "skipped": 1
+      },
+      "change": "Malformed cookie and invitation-path handling; narrow-screen navigation. Only the API and worker code artifact changed; resources were retained and permissions, environment settings and dependencies are unchanged.",
+      "packaging": "Unchanged Linux dependencies reused byte for byte from the previously verified package after lock comparison. No fresh Docker smoke test; actual Lambda API and worker execution passed.",
+      "live_browser": {
+        "passed": true,
+        "preparations": 1,
+        "preparation_seconds": 8.985,
+        "invitation_schedule_verified": true,
+        "viewport_widths": [
+          320,
+          390,
+          1440
+        ],
+        "page_errors": [],
+        "page_errors_scope": "Coordinator page",
+        "daily_usage": {
+          "day": "2026-10-02",
+          "count": 1
+        },
+        "evidence": "live-verification-2026-10-02.json"
+      }
     }
   ],
-  "current_package_sha256": "4e655f3694113234cb627035fa9fdda38379d741c20b12edf4390f1b75466834"
+  "current_package_sha256": "cdec0a83932f32ed923ec008b778c3ac9110195284a95a9fb36524ae1f7d6b98"
 }
