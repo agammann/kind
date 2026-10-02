@@ -4,7 +4,7 @@
 
 **Narrated demo:** [Watch Kind on YouTube](https://www.youtube.com/watch?v=XjpDlKANTAY). This three minute recording shows the actual deployed workflow with Amazon Polly Matthew narration and captions.
 
-Kind is a working volunteer coordinator for the **Good Neighbor Agents** track of the Agents for Humans Hackathon. It combines a volunteer coverage workflow with Strands Agents and Amazon Bedrock, and runs locally or as a protected AWS sample demo.
+Kind is a volunteer coordination demo you can run, inspect and adapt. Try the complete workflow locally without an AWS account, or connect Strands Agents and Amazon Bedrock to prepare invitation drafts. It was built for the **Good Neighbor Agents** track of the Agents for Humans Hackathon.
 
 **Hosted demo:** [Open Kind](https://idwgz9gl09.execute-api.us-west-2.amazonaws.com). Coordinator access requires the private demo code. All organization and volunteer records are fictional. The live preparation, approval, acceptance and saved roster workflow has been verified; see [live verification](docs/live-verification.json).
 
@@ -47,7 +47,7 @@ Install the app, build the interface, and start it:
 
 ```sh
 pip install -r requirements.txt
-pnpm install
+pnpm install --frozen-lockfile
 pnpm build
 python -m uvicorn server.app:app --host 127.0.0.1 --port 8000 --no-access-log
 ```
@@ -85,11 +85,12 @@ Select **Strands + Amazon Bedrock** in the preparation panel. Each run has a fiv
 ## Tests
 
 ```sh
+pip install -r requirements-test.txt -c requirements-lock.txt
 python -m pytest -q
 pnpm build
 ```
 
-The tests cover persistent state, approval boundaries, eligibility changes, contact limits, declines, concurrent acceptance, repeat requests, assignment conflicts, expiration, revocation, gap detection, API authorization, and cross-site request rejection.
+The test requirements include Moto, which exercises the DynamoDB store locally without an AWS account. The constraints file keeps the shared dependencies at the verified versions. The tests cover persistent state, approval boundaries, eligibility changes, contact limits, declines, concurrent acceptance, repeat requests, assignment conflicts, expiration, revocation, gap detection, API authorization, and cross-site request rejection. A SQLite-only case is skipped because it checks DynamoDB conditional writes.
 
 ## Architecture and limits
 
@@ -102,8 +103,6 @@ This is a **single organization sample workspace**, not a service for real nonpr
 The CloudFormation templates are deployed in `us-west-2`. Hosted mode requires a coordinator access code, uses signed secure session cookies, persists the sample roster in DynamoDB, and queues live AI work in a separate Lambda worker. Conditional writes prevent competing requests from overwriting a newer roster. A persisted counter admits at most 20 live AI runs per UTC day by default. AWS hosting and Bedrock usage are metered; the run limit is not a dollar cap.
 
 The hosted demo is one shared fictional organization. It is not an identity service for real nonprofit operations. The deployment plan describes resources, costs and access boundaries; [deployment evidence](docs/deployment.json) records the verified runtime state and package digest.
-
-For the full test suite, install `pip install -r requirements-test.txt` before running `python -m pytest -q`. DynamoDB tests run against Moto locally and do not access AWS.
 
 ## Built with
 

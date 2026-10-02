@@ -9,7 +9,10 @@ type View='coverage'|'volunteers'|'activity';
 
 export default function App(){
  const match=location.pathname.match(/^\/invite\/([^/]+)$/);
- return match?<VolunteerPage token={decodeURIComponent(match[1])}/>:<Coordinator/>;
+ if(!match)return <Coordinator/>;
+ let token=match[1];
+ try{token=decodeURIComponent(token);}catch{/* The invitation page handles an invalid token. */}
+ return <VolunteerPage token={token}/>;
 }
 
 function Coordinator(){
