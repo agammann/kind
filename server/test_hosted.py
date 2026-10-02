@@ -1,6 +1,7 @@
 import hashlib
 import time
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import closing
 
 import pytest
 from fastapi.testclient import TestClient
@@ -86,13 +87,16 @@ def test_job_failure_and_expiration_are_visible(store):
 def test_job_routes_and_internal_state_require_coordinator(store):
     jobs=Jobs(store,lambda _:None)
     app=create_app(store,jobs=jobs)
-    with TestClient(app) as client:
+    # Match Lambda's lifespan='off': hosted requests do not run the local scanner.
+    with closing(TestClient(app)) as client:
         assert client.post('/api/shifts/s1/prepare',json={'mode':'bedrock'}).status_code==401
         assert client.get('/api/jobs/unknown').status_code==401
         client.post('/api/session')
         response=client.post('/api/shifts/s1/prepare',json={'mode':'bedrock'})
         assert response.status_code==202
-        assert client.get('/api/jobs/'+response.json()['job_id']).json()['status']=='pending'
+        poll=client.get('/api/jobs/'+response.json()['job_id'])
+        assert poll.status_code==200
+        assert poll.json()['status']=='pending'
         state=client.get('/api/workspace').json()
         assert '_job' not in state and '_usage' not in state
 
