@@ -95,6 +95,7 @@ def test_api_coordinator_boundary_and_public_response(store):
     app=create_app(store)
     with TestClient(app) as owner,TestClient(app) as volunteer:
         assert volunteer.get('/api/workspace').status_code==401
+        assert volunteer.get('/api/workspace',headers={'Cookie':'kind_coordinator="\\351"'}).status_code==401
         assert owner.post('/api/session').status_code==200
         result=owner.post('/api/shifts/s1/prepare',json={'mode':'rules'}).json()
         inv_id=result['invitation']['id']

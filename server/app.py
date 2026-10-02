@@ -62,7 +62,8 @@ def create_app(store=None, *, auth=None, public_host=None, jobs=None):
         if auth:
             if not auth.valid(value): raise WorkflowError('Enter the coordinator access code to open this demo.',401)
             return
-        if not secrets.compare_digest(value,session_token): raise WorkflowError('Open the coordinator workspace to start a local session.',401)
+        if not value.isascii() or not secrets.compare_digest(value,session_token):
+            raise WorkflowError('Open the coordinator workspace to start a local session.',401)
 
     class Login(BaseModel): access_code: str=Field(default='',max_length=256)
 

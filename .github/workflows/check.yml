@@ -1,0 +1,33 @@
+name: Kind checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.19.0
+      - run: npm install --global pnpm@11.19.0
+      - run: python -m pip install -r requirements-test.txt -c requirements-lock.txt
+      - run: python -m pip check
+      - run: python -m pytest -q
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm audit --audit-level=low

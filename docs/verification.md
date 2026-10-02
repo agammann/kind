@@ -1,5 +1,15 @@
 # Kind verification
 
+## Local onboarding review, October 2, 2026
+
+Python 3.12.14 on Windows passed all 48 tests with the expected SQLite skip for DynamoDB conditional writes. The suite includes a malformed session cookie regression: the live local server now returns 401 instead of 500 for `kind_coordinator="\351"`. `pip check`, the TypeScript/Vite production build, and the JavaScript dependency audit passed.
+
+Chromium 153.0.8010.12 exercised the built app at `http://127.0.0.1:8000` with a disposable SQLite workspace. The browser check prepared a rules draft, verified that no response link existed before approval, edited and approved the invitation, copied the actual URL, accepted it, reloaded it, and confirmed the saved covered roster. It also exercised assignment cancellation, replacement eligibility, declining another invitation, volunteer search and its empty state, and saved activity/preparation history. No browser page errors occurred. Browser plugin not available; Playwright was used.
+
+The 320-pixel navigation overflow is fixed; 320-, 390- and 1440-pixel viewports fit without horizontal page scrolling. Opening `/invite/%` now shows the normal missing-invitation message and a return link instead of an empty page with `URI malformed`.
+
+The public AWS endpoint returned 200 for its landing page and health check and 401 for unauthenticated workspace access. Its signed-in workflow and Bedrock execution have not been rerun in this review: AWS Core requires reconnection. The deployment evidence below records earlier runs; the current local fixes have not yet been deployed to AWS.
+
 ## Authoritative invitation facts update
 
 Video review caught a real model draft describing UTC hours as Pacific time. The invitation tool now takes only the volunteer ID and formats the exact date, local time and location from saved shift data. Its displayed summary is also factual server text. The agent still chooses the volunteer through its context and eligibility tools and stages the draft. Human editing and approval remain explicit.
