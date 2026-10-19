@@ -88,7 +88,7 @@ opentelemetry-semantic-conventions==0.65b0
     #   opentelemetry-sdk
 packaging==26.3
     # via opentelemetry-instrumentation
-pycparser==3.0
+pycparser==3.11
     # via cffi
 pydantic==2.13.5
     # via
