@@ -4,6 +4,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    exclude-paths:
+      - "infra/**"
   - package-ecosystem: "pip"
     directory: "/infra"
     schedule:
