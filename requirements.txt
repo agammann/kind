@@ -1,6 +1,9 @@
 fastapi>=0.115,<1
 uvicorn>=0.34,<1
 strands-agents>=1,<2
+mcp>=1.30,<2
+PyJWT>=2.15,<3
+urllib3>=2.8,<3
 httpx>=0.28,<1
 pytest>=8,<10
 boto3[crt]>=1.42,<2
