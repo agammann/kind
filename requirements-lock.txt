@@ -48,7 +48,7 @@ six==1.17.0
 sse-starlette==3.4.11
 starlette==1.6.0
 strands-agents==1.55.0
-truststore==0.10.4
+truststore==0.10.5
 typing-inspection==0.4.4
 typing_extensions==4.16.0
 tzdata==2026.3
