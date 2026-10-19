@@ -53,6 +53,6 @@ typing-extensions==4.16.0
 typing-inspection==0.4.4
 tzdata==2026.3
 urllib3==2.8.0
-uvicorn==0.52.4
+uvicorn==0.54.0
 watchdog==6.0.0
 wrapt==2.4.0
