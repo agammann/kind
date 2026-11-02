@@ -80,7 +80,7 @@ opentelemetry-instrumentation==0.65b0
     # via opentelemetry-instrumentation-threading
 opentelemetry-instrumentation-threading==0.65b0
     # via strands-agents
-opentelemetry-sdk==1.44.0
+opentelemetry-sdk==1.45.1
     # via strands-agents
 opentelemetry-semantic-conventions==0.65b0
     # via
