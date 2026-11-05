@@ -1,3 +1,6 @@
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
 import pytest
 from .agent import default_message, prepare
 from .test_workflow import store
@@ -22,8 +25,11 @@ def test_agent_draft_uses_authoritative_shift_not_model_prose(store,monkeypatch)
             self.tools[2](volunteer_id='v1')
             return 'Invented model prose: 4 PM at an unrelated location.'
     monkeypatch.setattr(strands,'Agent',AgentStub)
+    state=store.read()
+    shift=next(item for item in state['shifts'] if item['id']=='s1')
+    expected_start=datetime.fromisoformat(shift['start']).astimezone(ZoneInfo(state['timezone'])).strftime('%I:%M %p')
     result=prepare(store,'s1','bedrock',model=object())
-    assert '09:00 AM' in result['invitation']['message']
+    assert expected_start in result['invitation']['message']
     assert 'Riverbend Community Pantry' in result['invitation']['message']
     assert 'Invented model prose' not in result['summary']
     assert result['invitation']['status']=='draft'
