@@ -34,9 +34,9 @@ def main():
     assert invitation['status']=='draft' and 'token' not in invitation
     auth=DemoAuth(hashlib.sha256(b'smoke-code').hexdigest(),'smoke-signing-key-123456789012345678901234567890')
     adapter=Mangum(create_app(store,auth=auth,public_host='demo.example'),lifespan='off')
-    def request(path,method='GET',body=None,cookies=None):
+    def request(path,method='GET',body=None,cookies=None,headers=None):
         event={'version':'2.0','routeKey':'$default','rawPath':path,'rawQueryString':'',
-            'headers':{'host':'demo.example','content-type':'application/json','x-forwarded-proto':'https'},
+            'headers':{'host':'demo.example','content-type':'application/json','x-forwarded-proto':'https',**(headers or {})},
             'requestContext':{'stage':'$default','domainName':'demo.example','http':{'method':method,'path':path,'sourceIp':'127.0.0.1','protocol':'HTTP/1.1'}},
             'body':json.dumps(body) if body is not None else None,'isBase64Encoded':False,'cookies':cookies or []}
         return adapter(event,SimpleNamespace(aws_request_id='local-smoke'))
@@ -47,8 +47,14 @@ def main():
     state=request('/api/workspace',cookies=[cookie])
     assert state['statusCode']==200 and json.loads(state['body'])['hosted']
     assert request('/')['statusCode']==200
+    assert request('/api/health',headers={'host':'attacker.example'})['statusCode']==400
+    assert request('/api/health',headers={'origin':'https://attacker.example'})['statusCode']==403
+    asset=next((target/'dist'/'assets').glob('*.js'))
+    response=request('/assets/'+asset.name,headers={'range':'bytes=0-15'})
+    assert response['statusCode']==206 and response['headers']['content-range'].startswith('bytes 0-15/')
     print('Linux Lambda package passed: imports, rules draft, authentication, API v2 adapter, persisted roster and frontend. No AWS API calls made.')
 
 
 if __name__=='__main__':
     main()
+
