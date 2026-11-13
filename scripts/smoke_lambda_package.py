@@ -2,11 +2,13 @@
 import hashlib
 import json
 import os
+from datetime import datetime, timedelta
 from pathlib import Path
 import sys
 import tempfile
 from types import SimpleNamespace
 import zipfile
+from zoneinfo import ZoneInfo
 
 
 def main():
@@ -14,6 +16,11 @@ def main():
     target=Path(tempfile.mkdtemp(prefix='kind-smoke-'))
     with zipfile.ZipFile(package) as archive:archive.extractall(target)
     sys.path.insert(0,str(target))
+    # Verify the bundled fallback data contains the 2026 Manitoba and Cuba changes.
+    for name,offset in (('Winnipeg',-5),('Havana',-4)):
+        with (target/'tzdata'/'zoneinfo'/'America'/name).open('rb') as data:
+            zone=ZoneInfo.from_file(data)
+        assert datetime(2026,11,15,tzinfo=zone).utcoffset()==timedelta(hours=offset)
     os.environ['KIND_HOSTED']='1'
     os.environ['AWS_EC2_METADATA_DISABLED']='true'
     from server import lambda_entry
