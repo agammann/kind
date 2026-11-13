@@ -31,3 +31,35 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm audit --audit-level=low
+
+  lambda-package:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    env:
+      AWS_EC2_METADATA_DISABLED: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.19.0
+      - run: npm install --global pnpm@11.19.0
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: Check Lambda dependency consistency
+        run: |
+          python -m venv "$RUNNER_TEMP/lambda-check"
+          "$RUNNER_TEMP/lambda-check/bin/python" -m pip install -r infra/requirements-lambda-lock.txt
+          "$RUNNER_TEMP/lambda-check/bin/python" -m pip check
+      - run: python -m pip install uv==0.13.8
+      - run: python scripts/package_lambda.py --output "$RUNNER_TEMP/kind-lambda.zip"
+      - name: Smoke test the Lambda package offline
+        run: |
+          docker run --rm --network none --entrypoint python \
+            -e KIND_HOSTED=1 -e AWS_EC2_METADATA_DISABLED=true \
+            --mount "type=bind,source=$RUNNER_TEMP/kind-lambda.zip,target=/tmp/kind-lambda.zip,readonly" \
+            --mount "type=bind,source=$GITHUB_WORKSPACE/scripts/smoke_lambda_package.py,target=/tmp/smoke.py,readonly" \
+            public.ecr.aws/lambda/python:3.12@sha256:9244da11430d6f8cc4f52849e03ccd50dbffa29d6d8c83d278d0dd0e9f79accc \
+            /tmp/smoke.py /tmp/kind-lambda.zip
