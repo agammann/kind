@@ -1,5 +1,6 @@
 """Exercise a packaged artifact inside the official Lambda Python container."""
 import hashlib
+import importlib.util
 import json
 import os
 from datetime import datetime, timedelta
@@ -67,6 +68,14 @@ def main():
     finally:
         instrumentor.uninstrument()
         provider.shutdown()
+    if len(sys.argv)>2:
+        spec=importlib.util.spec_from_file_location('server.test_strands_contract',sys.argv[2])
+        checks=importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(checks)
+        for name in ('test_real_agent_stages_only_an_eligible_draft',
+                     'test_real_agent_rejects_early_and_ineligible_drafts',
+                     'test_real_agent_enforces_five_model_call_limit'):
+            getattr(checks,name)(Path(tempfile.mkdtemp(prefix='kind-strands-')))
     print('Linux Lambda package passed: imports, rules draft, authentication, API v2 adapter, persisted roster and frontend. No AWS API calls made.')
 
 
