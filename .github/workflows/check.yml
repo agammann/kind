@@ -61,5 +61,6 @@ jobs:
             -e KIND_HOSTED=1 -e AWS_EC2_METADATA_DISABLED=true \
             --mount "type=bind,source=$RUNNER_TEMP/kind-lambda.zip,target=/tmp/kind-lambda.zip,readonly" \
             --mount "type=bind,source=$GITHUB_WORKSPACE/scripts/smoke_lambda_package.py,target=/tmp/smoke.py,readonly" \
+            --mount "type=bind,source=$GITHUB_WORKSPACE/server/test_strands_contract.py,target=/tmp/strands-contract.py,readonly" \
             public.ecr.aws/lambda/python:3.12@sha256:9244da11430d6f8cc4f52849e03ccd50dbffa29d6d8c83d278d0dd0e9f79accc \
-            /tmp/smoke.py /tmp/kind-lambda.zip
+            /tmp/smoke.py /tmp/kind-lambda.zip /tmp/strands-contract.py

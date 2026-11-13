@@ -131,7 +131,7 @@ starlette==1.10.0
     #   fastapi
     #   mcp
     #   sse-starlette
-strands-agents==1.55.0
+strands-agents==1.64.0
     # via -r infra/requirements-lambda.txt
 typing-extensions==4.16.0
     # via
