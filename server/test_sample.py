@@ -6,7 +6,7 @@ from fastapi.testclient import TestClient
 
 from .app import create_app
 from .store import WorkflowError, utcnow, iso, parse
-from .test_workflow import store, pending
+from .test_workflow import store, pending, track_initial_scan
 
 
 def test_restart_revokes_links_refreshes_dates_and_preserves_budget(store):
@@ -39,8 +39,10 @@ def test_restart_rejects_active_job_and_non_sample(store):
     with pytest.raises(WorkflowError,match='fictional'):store.restart_sample()
 
 
-def test_restart_requires_session_explicit_body_and_same_origin(store):
+def test_restart_requires_session_explicit_body_and_same_origin(store, monkeypatch):
+    scan_done, scan_errors=track_initial_scan(store, monkeypatch)
     with TestClient(create_app(store)) as client:
+        assert scan_done.wait(5) and not scan_errors
         assert client.post('/api/sample/restart',json={'confirm':'restart fictional sample'}).status_code==401
         client.post('/api/session')
         assert client.post('/api/sample/restart',json={}).status_code==422
