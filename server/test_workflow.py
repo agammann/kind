@@ -1,5 +1,7 @@
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import closing
 from datetime import timedelta
+from threading import Event
 import pytest
 import boto3
 from moto import mock_aws
@@ -24,6 +26,20 @@ def store(tmp_path,request,monkeypatch):
 def pending(store,volunteer='v1',shift='s1'):
     inv=store.draft(shift,volunteer,'Please help if you are available.')
     return store.approve(inv['id'],inv['message'])
+
+def track_initial_scan(store, monkeypatch):
+    completed, errors = Event(), []
+    original = store.scan
+    def tracked():
+        try:
+            return original()
+        except Exception as exc:
+            errors.append(exc)
+            raise
+        finally:
+            completed.set()
+    monkeypatch.setattr(store, 'scan', tracked)
+    return completed, errors
 
 def test_real_persistence_and_full_workflow(store):
     result=prepare(store,'s1','rules')
@@ -53,6 +69,7 @@ def test_decline_gets_next_candidate(store):
     assert prepare(store,'s1','rules')['invitation']['volunteer_id']=='v2'
     assert store.read()['shifts'][0]['assigned']==['v3']
 
+@pytest.mark.parametrize('store', ['sqlite'], indirect=True)
 def test_concurrent_acceptance_never_overfills(store):
     a,b=pending(store,'v1'),pending(store,'v2')
     def accept(inv):
@@ -60,6 +77,20 @@ def test_concurrent_acceptance_never_overfills(store):
         except WorkflowError:return 'closed'
     with ThreadPoolExecutor(2) as pool: results=list(pool.map(accept,[a,b]))
     assert sorted(results)==['accepted','closed']
+    assert len(store.read()['shifts'][0]['assigned'])==2
+
+@pytest.mark.parametrize('store', ['dynamodb'], indirect=True)
+def test_dynamodb_stale_acceptance_is_rejected(store, monkeypatch):
+    # Moto does not support concurrent mutation. Give both requests the same
+    # snapshot and exercise the version condition deterministically instead.
+    a,b=pending(store,'v1'),pending(store,'v2')
+    current_item=store.item
+    stale=current_item()
+    monkeypatch.setattr(store, 'item', lambda: stale.copy())
+    assert store.respond(a['token'], 'accepted')=={'status':'accepted'}
+    with pytest.raises(WorkflowError, match='roster changed'):
+        store.respond(b['token'], 'accepted')
+    monkeypatch.setattr(store, 'item', current_item)
     assert len(store.read()['shifts'][0]['assigned'])==2
 
 def test_repeated_approval_and_acceptance_are_idempotent(store):
@@ -91,20 +122,25 @@ def test_cancellation_reopens_gap_without_reinviting_cancelled_person(store):
     assert store.scan()['open_shifts']==3
     assert 'v2' not in [v['id'] for v in store.candidates('s3')['eligible']]
 
-def test_api_coordinator_boundary_and_public_response(store):
+def test_api_coordinator_boundary_and_public_response(store, monkeypatch):
+    scan_done, scan_errors=track_initial_scan(store, monkeypatch)
     app=create_app(store)
-    with TestClient(app) as owner,TestClient(app) as volunteer:
-        assert volunteer.get('/api/workspace').status_code==401
-        assert volunteer.get('/api/workspace',headers={'Cookie':'kind_coordinator="\\351"'}).status_code==401
-        assert owner.post('/api/session').status_code==200
-        result=owner.post('/api/shifts/s1/prepare',json={'mode':'rules'}).json()
-        inv_id=result['invitation']['id']
-        assert volunteer.post(f'/api/invitations/{inv_id}/approve',json={'message':'Hi'}).status_code==401
-        inv=owner.post(f'/api/invitations/{inv_id}/approve',json={'message':'Hi'}).json()
-        public=volunteer.get('/api/volunteer/'+inv['token']).json()
-        assert 'volunteers' not in public and 'assigned' not in public['shift']
-        assert volunteer.post('/api/volunteer/'+inv['token']+'/respond',json={'decision':'accepted'}).status_code==200
-        assert owner.get('/api/workspace').json()['shifts'][0]['assigned']==['v3','v1']
+    with TestClient(app) as owner:
+        assert scan_done.wait(5) and not scan_errors
+        # A second cookie jar must not start a second application lifespan.
+        with closing(TestClient(app)) as volunteer:
+            assert volunteer.get('/api/workspace').status_code==401
+            assert volunteer.get('/api/workspace',headers={'Cookie':'kind_coordinator="\\351"'}).status_code==401
+            assert owner.post('/api/session').status_code==200
+            response=owner.post('/api/shifts/s1/prepare',json={'mode':'rules'})
+            assert response.status_code==200, response.text
+            inv_id=response.json()['invitation']['id']
+            assert volunteer.post(f'/api/invitations/{inv_id}/approve',json={'message':'Hi'}).status_code==401
+            inv=owner.post(f'/api/invitations/{inv_id}/approve',json={'message':'Hi'}).json()
+            public=volunteer.get('/api/volunteer/'+inv['token']).json()
+            assert 'volunteers' not in public and 'assigned' not in public['shift']
+            assert volunteer.post('/api/volunteer/'+inv['token']+'/respond',json={'decision':'accepted'}).status_code==200
+            assert owner.get('/api/workspace').json()['shifts'][0]['assigned']==['v3','v1']
 
 def test_cross_site_requests_and_untrusted_hosts_blocked(store):
     with TestClient(create_app(store)) as client:
