@@ -45,4 +45,5 @@ def test_restart_requires_session_explicit_body_and_same_origin(store):
         client.post('/api/session')
         assert client.post('/api/sample/restart',json={}).status_code==422
         assert client.post('/api/sample/restart',json={'confirm':'restart fictional sample'},headers={'Origin':'https://evil.example'}).status_code==403
-        assert client.post('/api/sample/restart',json={'confirm':'restart fictional sample'}).status_code==200
+        response=client.post('/api/sample/restart',json={'confirm':'restart fictional sample'})
+        assert response.status_code==200, response.text
