@@ -90,13 +90,13 @@ packaging==26.3
     # via opentelemetry-instrumentation
 pycparser==3.12
     # via cffi
-pydantic==2.13.5
+pydantic==2.14.3
     # via
     #   fastapi
     #   mcp
     #   pydantic-settings
     #   strands-agents
-pydantic-core==2.46.5
+pydantic-core==2.50.4
     # via pydantic
 pydantic-settings==2.16.0
     # via mcp
