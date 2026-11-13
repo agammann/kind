@@ -53,6 +53,7 @@ def test_decline_gets_next_candidate(store):
     assert prepare(store,'s1','rules')['invitation']['volunteer_id']=='v2'
     assert store.read()['shifts'][0]['assigned']==['v3']
 
+@pytest.mark.parametrize('store', ['sqlite'], indirect=True)
 def test_concurrent_acceptance_never_overfills(store):
     a,b=pending(store,'v1'),pending(store,'v2')
     def accept(inv):
@@ -60,6 +61,20 @@ def test_concurrent_acceptance_never_overfills(store):
         except WorkflowError:return 'closed'
     with ThreadPoolExecutor(2) as pool: results=list(pool.map(accept,[a,b]))
     assert sorted(results)==['accepted','closed']
+    assert len(store.read()['shifts'][0]['assigned'])==2
+
+@pytest.mark.parametrize('store', ['dynamodb'], indirect=True)
+def test_dynamodb_stale_acceptance_is_rejected(store, monkeypatch):
+    # Moto does not support concurrent mutation. Give both requests the same
+    # snapshot and exercise the version condition deterministically instead.
+    a,b=pending(store,'v1'),pending(store,'v2')
+    current_item=store.item
+    stale=current_item()
+    monkeypatch.setattr(store, 'item', lambda: stale.copy())
+    assert store.respond(a['token'], 'accepted')=={'status':'accepted'}
+    with pytest.raises(WorkflowError, match='roster changed'):
+        store.respond(b['token'], 'accepted')
+    monkeypatch.setattr(store, 'item', current_item)
     assert len(store.read()['shifts'][0]['assigned'])==2
 
 def test_repeated_approval_and_acceptance_are_idempotent(store):
