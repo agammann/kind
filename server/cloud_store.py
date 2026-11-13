@@ -8,7 +8,7 @@ import boto3
 from boto3.dynamodb.conditions import Attr
 from botocore.config import Config
 
-from .store import Store, WorkflowError, seed_state
+from .store import ConcurrentWrite, Store, WorkflowError, seed_state
 
 
 class DynamoStore(Store):
@@ -53,4 +53,4 @@ class DynamoStore(Store):
             self.table.put_item(Item={'pk': 'workspace', 'version': item['version'] + 1, 'document': document},
                 ConditionExpression=Attr('version').eq(item['version']))
         except self.table.meta.client.exceptions.ConditionalCheckFailedException as exc:
-            raise WorkflowError('The roster changed during this action. Refresh and try again.', 409) from exc
+            raise ConcurrentWrite('The roster changed during this action. Refresh and try again.', 409) from exc

@@ -16,6 +16,10 @@ class WorkflowError(Exception):
         self.message, self.status = message, status
 
 
+class ConcurrentWrite(WorkflowError):
+    """A versioned write lost an optimistic concurrency race."""
+
+
 def utcnow() -> datetime:
     return datetime.now(timezone.utc)
 

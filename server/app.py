@@ -12,8 +12,10 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
-from .store import Store, WorkflowError
+from .store import ConcurrentWrite, Store, WorkflowError
 from .agent import prepare
+
+SCAN_INTERVAL_SECONDS = 30
 
 
 def create_app(store=None, *, auth=None, public_host=None, jobs=None):
@@ -27,8 +29,12 @@ def create_app(store=None, *, auth=None, public_host=None, jobs=None):
     async def lifespan(app):
         async def watch():
             while True:
-                await asyncio.to_thread(workspace.scan)
-                await asyncio.sleep(30)
+                try:
+                    await asyncio.to_thread(workspace.scan)
+                except ConcurrentWrite:
+                    # Another writer won; scan a fresh snapshot on the next pass.
+                    pass
+                await asyncio.sleep(SCAN_INTERVAL_SECONDS)
         task=asyncio.create_task(watch())
         yield
         task.cancel()
