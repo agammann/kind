@@ -88,3 +88,17 @@ def test_provider_failures_remain_sanitized(tmp_path):
     else:
         raise AssertionError('A provider failure should be rejected')
     assert model.calls==1 and not store.read()['invitations']
+
+
+def test_local_api_returns_budget_message(tmp_path,monkeypatch):
+    from fastapi.testclient import TestClient
+    from . import app as app_module
+    store=Store(str(tmp_path/'api.sqlite3'))
+    model=ScriptedModel([('get_shift_context', {})]*6)
+    monkeypatch.setattr(app_module,'prepare',lambda store,shift_id,mode: prepare(store,shift_id,mode,model=model))
+    with TestClient(app_module.create_app(store)) as client:
+        assert client.post('/api/session').status_code==200
+        response=client.post('/api/shifts/s1/prepare',json={'mode':'bedrock'})
+    assert response.status_code==503
+    assert 'five-step limit' in response.json()['detail']
+    assert model.calls==5 and not store.read()['invitations']
