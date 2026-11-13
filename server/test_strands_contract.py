@@ -22,6 +22,7 @@ class ScriptedModel(Model):
     async def stream(self, messages, tool_specs=None, system_prompt=None, **kwargs):
         self.calls+=1
         action=next(self.actions)
+        if isinstance(action,Exception): raise action
         yield {'messageStart': {'role': 'assistant'}}
         if isinstance(action, str):
             yield {'contentBlockStart': {'start': {}}}
@@ -69,9 +70,35 @@ def test_real_agent_enforces_five_model_call_limit(tmp_path):
     try:
         prepare(store, 's1', 'bedrock', model=model)
     except WorkflowError as exc:
-        # The SDK wraps hook errors; the user receives the generic failure.
-        assert exc.status==503 and 'could not complete' in exc.message
+        assert exc.status==503 and 'five-step limit' in exc.message
     else:
         raise AssertionError('The sixth model call should be blocked')
     assert model.calls==5
     assert not store.read()['invitations']
+
+
+def test_provider_failures_remain_sanitized(tmp_path):
+    store=Store(str(tmp_path/'error.sqlite3'))
+    model=ScriptedModel([RuntimeError('sensitive provider detail')])
+    try:
+        prepare(store, 's1', 'bedrock', model=model)
+    except WorkflowError as exc:
+        assert exc.status==503 and 'could not complete' in exc.message
+        assert 'sensitive provider detail' not in exc.message
+    else:
+        raise AssertionError('A provider failure should be rejected')
+    assert model.calls==1 and not store.read()['invitations']
+
+
+def test_local_api_returns_budget_message(tmp_path,monkeypatch):
+    from fastapi.testclient import TestClient
+    from . import app as app_module
+    store=Store(str(tmp_path/'api.sqlite3'))
+    model=ScriptedModel([('get_shift_context', {})]*6)
+    monkeypatch.setattr(app_module,'prepare',lambda store,shift_id,mode: prepare(store,shift_id,mode,model=model))
+    with TestClient(app_module.create_app(store)) as client:
+        assert client.post('/api/session').status_code==200
+        response=client.post('/api/shifts/s1/prepare',json={'mode':'bedrock'})
+    assert response.status_code==503
+    assert 'five-step limit' in response.json()['detail']
+    assert model.calls==5 and not store.read()['invitations']

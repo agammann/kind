@@ -38,14 +38,18 @@ def prepare(store: Store, shift_id: str, mode: str, model=None):
     from strands import Agent, tool
     from strands.models import BedrockModel
     from strands.hooks import HookProvider, HookRegistry, BeforeModelCallEvent
+    from strands.types.exceptions import EventLoopException
     from botocore.config import Config
+
+    class BudgetExceeded(WorkflowError):
+        pass
 
     class CallBudget(HookProvider):
         def __init__(self): self.calls=0
         def register_hooks(self, registry: HookRegistry): registry.add_callback(BeforeModelCallEvent, self.limit)
         def limit(self, event):
             self.calls+=1
-            if self.calls>5: raise WorkflowError('The agent reached its five-step limit. Review the current draft or try again.',503)
+            if self.calls>5: raise BudgetExceeded('The agent reached its five-step limit. Review the current draft or try again.',503)
 
     staged=[]
     checked={'shift':False,'eligibility':False}
@@ -103,5 +107,7 @@ def prepare(store: Store, shift_id: str, mode: str, model=None):
         return result
     except WorkflowError: raise
     except Exception as exc:
+        if isinstance(exc,EventLoopException) and isinstance(exc.original_exception,BudgetExceeded):
+            raise exc.original_exception from exc
         # Never expose credential material, raw provider responses, or stack traces to browsers.
         raise WorkflowError('Live Strands could not complete this run. Check AWS credentials, region and model access. No invitation was approved or sent.',503) from exc
