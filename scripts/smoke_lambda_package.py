@@ -74,7 +74,8 @@ def main():
         spec.loader.exec_module(checks)
         for name in ('test_real_agent_stages_only_an_eligible_draft',
                      'test_real_agent_rejects_early_and_ineligible_drafts',
-                     'test_real_agent_enforces_five_model_call_limit'):
+                     'test_real_agent_enforces_five_model_call_limit',
+                     'test_provider_failures_remain_sanitized'):
             getattr(checks,name)(Path(tempfile.mkdtemp(prefix='kind-strands-')))
     print('Linux Lambda package passed: imports, rules draft, authentication, API v2 adapter, persisted roster and frontend. No AWS API calls made.')
 
