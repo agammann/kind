@@ -3,6 +3,7 @@ import hashlib
 import json
 import os
 from datetime import datetime, timedelta
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import sys
 import tempfile
@@ -52,6 +53,20 @@ def main():
     asset=next((target/'dist'/'assets').glob('*.js'))
     response=request('/assets/'+asset.name,headers={'range':'bytes=0-15'})
     assert response['statusCode']==206 and response['headers']['content-range'].startswith('bytes 0-15/')
+    from opentelemetry import trace
+    from opentelemetry.instrumentation.threading import ThreadingInstrumentor
+    from opentelemetry.sdk.trace import TracerProvider
+    provider=TracerProvider()
+    instrumentor=ThreadingInstrumentor()
+    instrumentor.instrument()
+    try:
+        with provider.get_tracer('kind-smoke').start_as_current_span('parent') as span:
+            with ThreadPoolExecutor(max_workers=1) as executor:
+                propagated=executor.submit(lambda: trace.get_current_span().get_span_context().span_id).result()
+            assert propagated==span.get_span_context().span_id
+    finally:
+        instrumentor.uninstrument()
+        provider.shutdown()
     print('Linux Lambda package passed: imports, rules draft, authentication, API v2 adapter, persisted roster and frontend. No AWS API calls made.')
 
 
