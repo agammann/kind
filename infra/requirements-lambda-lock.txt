@@ -161,7 +161,7 @@ urllib3==2.8.0
     # via
     #   -r infra/requirements-lambda.txt
     #   botocore
-uvicorn==0.52.4
+uvicorn==0.54.0
     # via mcp
 watchdog==6.0.0
     # via strands-agents
