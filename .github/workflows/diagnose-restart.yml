@@ -1,0 +1,29 @@
+name: Windows repeated workflow diagnostics
+on:
+  push:
+    branches:
+      - test/kind-windows-repeat-nov13
+permissions:
+  contents: read
+jobs:
+  repeat:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      AWS_ACCESS_KEY_ID: testing
+      AWS_SECRET_ACCESS_KEY: testing
+      AWS_EC2_METADATA_DISABLED: 'true'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-test.txt -c requirements-lock.txt
+      - name: Repeat complete test suite on Windows
+        shell: pwsh
+        run: |
+          for ($attempt = 1; $attempt -le 10; $attempt++) {
+            Write-Host "Iteration $attempt"
+            python -m pytest -q
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
