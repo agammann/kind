@@ -4,7 +4,7 @@
 
 **Narrated demo:** [Watch Kind on YouTube](https://www.youtube.com/watch?v=XjpDlKANTAY). This three minute recording shows the actual deployed workflow with Amazon Polly Matthew narration and captions.
 
-Kind is a volunteer coordination demo you can run, inspect and adapt. Try the complete workflow locally without an AWS account, or connect Strands Agents and Amazon Bedrock to prepare invitation drafts. It was built for the **Good Neighbor Agents** track of the Agents for Humans Hackathon.
+Kind is a volunteer coordination app with a single fictional sample workspace that you can run, inspect and adapt. Try the complete workflow locally without an AWS account, or connect Strands Agents and Amazon Bedrock to prepare invitation drafts. It was built for the **Good Neighbor Agents** track of the Agents for Humans Hackathon.
 
 **Hosted demo:** [Open Kind](https://idwgz9gl09.execute-api.us-west-2.amazonaws.com). Coordinator access requires the private demo code. All organization and volunteer records are fictional. The deployed preparation, approval, acceptance and saved roster workflow was rechecked on October 2, 2026; see [live verification](docs/live-verification-2026-10-02.json).
 
@@ -25,7 +25,16 @@ Kind is a volunteer coordination demo you can run, inspect and adapt. Try the co
 
 ## Run locally
 
-Prerequisites: Python 3.12+ and Node.js 22+ with pnpm. The development run used Python 3.12, Node 24, pnpm 11, and Strands 1.55.0.
+Use the CI-verified setup: **Python 3.12**, **Node.js 24.19.0 or newer within Node 24**, and **pnpm 11.19.0**. Check `python --version`, `node --version` and `pnpm --version`; if needed, install the pinned package manager with `npm install --global pnpm@11.19.0`. The constrained Python setup uses Strands 1.64.0. Other runtime versions are not established by these verification results.
+
+Clone the repository (Git is required for this option):
+
+```sh
+git clone https://github.com/agammann/kind.git
+cd kind
+```
+
+Alternatively, extract its GitHub source archive and open that folder, skipping the two Git commands above. Run the remaining commands from the repository root.
 
 ```sh
 python -m venv .venv
@@ -46,13 +55,13 @@ source .venv/bin/activate
 Install the app, build the interface, and start it:
 
 ```sh
-pip install -r requirements.txt
+python -m pip install -r requirements.txt -c requirements-lock.txt
 pnpm install --frozen-lockfile
 pnpm build
 python -m uvicorn server.app:app --host 127.0.0.1 --port 8000 --no-access-log
 ```
 
-Open **http://127.0.0.1:8000**. The server creates `data/kind.sqlite3` on its first run. That file is private local state and is excluded from Git. `requirements-lock.txt` records the exact Windows verification environment; `requirements.txt` is portable across platforms.
+Open **http://127.0.0.1:8000**. The server creates `data/kind.sqlite3` on its first run. That file is private local state and is excluded from Git. `requirements-lock.txt` records the verified Windows dependency versions and is also used as constraints by cross-platform CI; `requirements.txt` keeps portable dependency declarations. The first run seeds fictional future shifts without replacing an existing workspace. For an isolated local review, set `KIND_DB_PATH` to a new absolute SQLite path before starting; keep your ordinary data file unchanged.
 
 For frontend development, keep the Python server running and use `pnpm dev` in another terminal. Vite serves the interface at http://127.0.0.1:5173 and proxies `/api` to port 8000.
 
@@ -85,7 +94,7 @@ Select **Strands + Amazon Bedrock** in the preparation panel. Each run has a fiv
 ## Tests
 
 ```sh
-pip install -r requirements-test.txt -c requirements-lock.txt
+python -m pip install -r requirements-test.txt -c requirements-lock.txt
 python -m pytest -q
 pnpm build
 ```
@@ -94,7 +103,7 @@ The test requirements include Moto, which exercises the DynamoDB store locally w
 
 ## Architecture and limits
 
-See [architecture](docs/architecture.md), [scope](docs/scope.md), [verification](docs/verification.md), [AWS deployment plan](docs/aws-deployment.md), and the [complete submission draft](devpost-submission.md).
+See [architecture](docs/architecture.md), [scope](docs/scope.md), [November 17 local review](docs/verification-2026-11-17.md), [historical verification](docs/verification.md), [AWS deployment plan](docs/aws-deployment.md), and the [complete submission draft](devpost-submission.md).
 
 This is a **single organization sample workspace**, not a service for real nonprofit operations. Local mode bootstraps coordinator sessions and binds only to loopback. Hosted mode requires an access code and uses secure signed cookies, a trusted HTTPS origin and DynamoDB. Volunteer links are bearer links. Managed identity, organization isolation, operational data entry, backup procedures and user validation remain future work. No real nonprofit adoption or impact metrics are claimed.
 

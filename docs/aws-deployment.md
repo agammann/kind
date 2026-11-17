@@ -1,10 +1,18 @@
 # Kind AWS deployment plan
 
-Current package: `kind-verified-facts.zip`, SHA256 `4e655f3694113234cb627035fa9fdda38379d741c20b12edf4390f1b75466834`. Change set `kind-authoritative-invitation-20260911` reached UPDATE_COMPLETE. Both active function hashes match. Invitation logistics now come from saved shift data rather than model prose; 48 tests and the Linux package smoke passed. The template and resource count are unchanged. Earlier updates below retain their historical evidence.
+## Last recorded update: October 2, 2026
 
-Latest update: `kind-repeatable-sample-20260911` reached `UPDATE_COMPLETE`. The current artifact is `kind-repeatable.zip`, SHA256 `59c1f40b953beb6d071e0dcc5288108096133bdcfb236c85dde516a0e839f79a`. Both active function digests match it. This adds confirmed sample restart and corrects hosted sample wording; it adds no resources and keeps the previous template, access parameters and AI allowance. Package references below describe the initial deployment and remain reproducible historical instructions.
+The latest entry in [deployment evidence](deployment.json) records the `kind-demo` stack reaching `UPDATE_COMPLETE` with change set `kind-onboarding-20261002-cdec0a83`. Its package is `kind-onboarding-60b4ef7.zip`, SHA256 `cdec0a83932f32ed923ec008b778c3ac9110195284a95a9fb36524ae1f7d6b98`, from source `60b4ef7387a3faf3dde6a5dec97ab70ca627a86b`. The record verifies all eight server files and three frontend files, with both functions active and their code digests matching the package. Only the API and worker code artifact changed; resources, permissions, environment settings and dependencies were retained. See the dated [verification account](verification.md) and [live checks](live-verification-2026-10-02.json).
 
-Status: deployed and verified after explicit user approval. Both `kind-artifacts` and `kind-demo` reached CREATE_COMPLETE in `us-west-2`. The actual HTTPS workflow completed live Bedrock preparation, coordinator approval and volunteer acceptance, with the roster saved in DynamoDB. See `deployment.json` and `live-verification.json` for evidence. `aws-preflight.md` records the earlier review and approval scope.
+These are recorded results, not a fresh query of the AWS account or live deployment. Reconfirm state before an update. Preserve the existing stacks, fictional workspace, access parameters and usage allowance. The design and original deployment procedure below retain their historical checkpoint; later public repository and contest submission evidence is in [publication verification](publication-verification.json).
+
+## Historical September 11 updates
+
+At the `kind-authoritative-invitation-20260911` checkpoint, package `kind-verified-facts.zip` had SHA256 `4e655f3694113234cb627035fa9fdda38379d741c20b12edf4390f1b75466834` and the change set reached `UPDATE_COMPLETE`. Both active function hashes matched. Invitation logistics came from saved shift data rather than model prose; 48 tests and the Linux package smoke passed. The template and resource count were unchanged.
+
+The earlier `kind-repeatable-sample-20260911` update reached `UPDATE_COMPLETE` with `kind-repeatable.zip`, SHA256 `59c1f40b953beb6d071e0dcc5288108096133bdcfb236c85dde516a0e839f79a`. Both active function digests matched it. This added confirmed sample restart and corrected hosted sample wording; it added no resources and kept the previous template, access parameters and AI allowance. Package references below describe the initial deployment and remain reproducible historical instructions.
+
+Initial deployment status: deployed and verified after explicit user approval. Both `kind-artifacts` and `kind-demo` reached `CREATE_COMPLETE` in `us-west-2`. The actual HTTPS workflow completed live Bedrock preparation, coordinator approval and volunteer acceptance, with the roster saved in DynamoDB. See `deployment.json` and `live-verification.json` for evidence. `aws-preflight.md` records the earlier review and approval scope.
 
 Target: the connected AWS account, region `us-west-2`. Use the AWS Core connector for deployment. The connector connection does not give the standalone local app SDK credentials, and no credentials need to be exported from it.
 
@@ -44,10 +52,16 @@ python scripts/package_lambda.py --output ../kind-deployment/kind-demo.zip
 
 Choose a new output filename if a package already exists. The builder evaluates Python dependencies for Linux even on Windows, bundles the frontend and backend, and writes a SHA256 manifest. It never logs in to AWS or deploys anything. The package excludes local databases, tests, access codes and environment files. `infra/requirements-lambda-lock.txt` records the resolved Linux dependencies.
 
-The corresponding runtime smoke command uses the official Lambda Python image with the output directory mounted read only:
+The corresponding offline runtime smoke command uses the same pinned official Lambda Python image and three read-only mounts as CI: the built package, smoke script and Strands contract. Replace all three source paths with your absolute paths. The container has no network access; this checks the package and injected agent contract without calling AWS or Bedrock.
 
 ```sh
-docker run --rm --entrypoint python -e KIND_HOSTED=1 -e AWS_EC2_METADATA_DISABLED=true -v /absolute/path/to/outputs:/build:ro public.ecr.aws/lambda/python:3.12 /build/kind/scripts/smoke_lambda_package.py /build/kind-deployment/kind-demo.zip
+docker run --rm --network none --entrypoint python \
+  -e KIND_HOSTED=1 -e AWS_EC2_METADATA_DISABLED=true \
+  --mount "type=bind,source=/absolute/path/to/kind-deployment/kind-demo.zip,target=/tmp/kind-lambda.zip,readonly" \
+  --mount "type=bind,source=/absolute/path/to/kind/scripts/smoke_lambda_package.py,target=/tmp/smoke.py,readonly" \
+  --mount "type=bind,source=/absolute/path/to/kind/server/test_strands_contract.py,target=/tmp/strands-contract.py,readonly" \
+  public.ecr.aws/lambda/python:3.12@sha256:9244da11430d6f8cc4f52849e03ccd50dbffa29d6d8c83d278d0dd0e9f79accc \
+  /tmp/smoke.py /tmp/kind-lambda.zip /tmp/strands-contract.py
 ```
 
 ## Deployment sequence completed after approval
@@ -60,4 +74,4 @@ docker run --rm --entrypoint python -e KIND_HOSTED=1 -e AWS_EC2_METADATA_DISABLE
 6. Verify the resulting HTTPS endpoint, access restrictions, live AI job, approval, volunteer response, conditional roster update, persisted state, and visible failure behavior against the actual deployed resources.
 7. Record the exact deployed source commit and package digest. Add the verified demo URL and judge access instructions to the draft. Public repository visibility and final Devpost submission remain separate publication decisions.
 
-The hosted demo is verified through the actual cloud endpoint. The repository remains private and the hackathon entry has not been submitted. No real nonprofit operation is claimed.
+At the initial deployment checkpoint, the hosted workflow had been verified through the actual cloud endpoint, while the repository was still private and the hackathon entry had not been submitted. The later [publication record](publication-verification.json), dated September 11, records the public MIT repository and completed submission. These are historical results, not a fresh external verification. No real nonprofit operation is claimed.
