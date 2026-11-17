@@ -1,4 +1,6 @@
-# Kind — first working version
+# Kind — historical initial scope
+
+This document records the initial local-build plan. Its deployment and contest-submission restrictions describe that checkpoint. For current capabilities and limitations, start with the [README](../README.md); later recorded deployment and publication results are in [verification](verification.md), [deployment evidence](deployment.json) and [publication verification](publication-verification.json).
 
 Approved direction: Good Neighbor Agents, helping one small nonprofit keep volunteer shifts covered. The user chose the name Kind and authorized building in Codex and creating the project with Devpost and GitHub.
 
