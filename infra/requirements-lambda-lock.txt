@@ -35,7 +35,7 @@ cryptography==50.0.2
     # via pyjwt
 docstring-parser==0.18.0
     # via strands-agents
-fastapi==0.141.1
+fastapi==0.165.0
     # via -r infra/requirements-lambda.txt
 h11==0.16.0
     # via
