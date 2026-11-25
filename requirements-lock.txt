@@ -54,5 +54,5 @@ typing-inspection==0.4.5
 tzdata==2026.6
 urllib3==2.8.0
 uvicorn==0.54.0
-watchdog==6.0.0
+watchdog==7.1.1
 wrapt==2.4.0
