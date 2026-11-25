@@ -165,7 +165,7 @@ uvicorn==0.54.0
     # via mcp
 watchdog==6.0.0
     # via strands-agents
-wrapt==2.4.1
+wrapt==2.5.2
     # via
     #   opentelemetry-instrumentation
     #   opentelemetry-instrumentation-threading
