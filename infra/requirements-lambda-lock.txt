@@ -108,7 +108,7 @@ python-dateutil==2.9.0.post0
     # via botocore
 python-dotenv==1.2.4
     # via pydantic-settings
-python-multipart==0.0.32
+python-multipart==0.0.34
     # via mcp
 pyyaml==6.0.3
     # via strands-agents
@@ -165,7 +165,7 @@ uvicorn==0.54.0
     # via mcp
 watchdog==6.0.0
     # via strands-agents
-wrapt==2.4.1
+wrapt==2.5.2
     # via
     #   opentelemetry-instrumentation
     #   opentelemetry-instrumentation-threading
